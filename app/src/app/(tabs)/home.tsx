@@ -19,13 +19,14 @@ import {
 } from '../../components/ui';
 import { daysAgo, fullDate, longDate, shortDate, waitingTime } from '../../format';
 import { useSession } from '../../session';
+import { usePatientNotifications } from '../../notifications/patient-notifications';
 import { colors, shadow, type } from '../../theme';
 import { useLoad } from '../../useLoad';
 
 /** "Início · Minha jornada" (41-21 and 41-111), with the offline (92-2265) and error (92-2332) states. */
 export default function Home() {
   const { data, error, loading, loadedAt, reload } = useLoad(() => api.getHome());
-  const { data: notifications } = useLoad(() => api.getNotifications());
+  const { data: notifications } = usePatientNotifications();
   const { prefs } = useSession();
   const unread = visibleNotifications(notifications ?? [], prefs.notifications).filter((n) => !n.read).length;
 

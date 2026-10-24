@@ -3,7 +3,7 @@ import { getSessionToken } from "../auth/token";
 import { appInbox } from "./app-inbox";
 import { fromExpoNotification, type ExpoNotificationLike } from "./capture-logic";
 import type { InboxItem } from "./inbox";
-import { syncInbox } from "./remote";
+import { loadPatientNotifications } from './patient-notifications';
 
 // Todo aviso que chega ao aparelho entra na lista do sino (spec 002, itens 2 e 10).
 // O aviso que chega com o app fechado entra pela tarefa em segundo plano (widgets/background.ts).
@@ -13,40 +13,35 @@ import { syncInbox } from "./remote";
  * e completa a lista com a API (ou a demonstração, sem backend).
  */
 export function startInboxCapture() {
-  const add = (notifications: ExpoNotificationLike[]) => {
+  let active = true;
+  const add = async (notifications: ExpoNotificationLike[]) => {
+    const token = await getSessionToken();
+    if (!active || !token) return;
     const items = notifications
       .map(fromExpoNotification)
       .filter((item): item is InboxItem => item !== null);
-    if (items.length > 0) appInbox.add(items).catch(warn);
+    if (active && items.length > 0 && await getSessionToken() === token) await appInbox.add(items);
   };
 
-  appInbox.load();
-  syncInbox({
-    apiConfigured: Boolean(process.env.EXPO_PUBLIC_API_URL),
-    getToken: getSessionToken,
-    fetchList: fetchNotifications,
-    add: appInbox.add,
-    now: new Date(),
-  }).catch(warn);
-  Notifications.getPresentedNotificationsAsync().then(add, warn);
+  loadPatientNotifications().catch(warn);
+  Notifications.getPresentedNotificationsAsync().then(add).catch(warn);
   Notifications.getLastNotificationResponseAsync().then(
     (response) => response && add([response.notification]),
-    warn,
-  );
-  const received = Notifications.addNotificationReceivedListener((n) => add([n]));
-  const tapped = Notifications.addNotificationResponseReceivedListener((r) => add([r.notification]));
+  ).catch(warn);
+  const received = Notifications.addNotificationReceivedListener((n) => { add([n]).catch(warn); });
+  const tapped = Notifications.addNotificationResponseReceivedListener((r) => { add([r.notification]).catch(warn); });
   return () => {
+    active = false;
     received.remove();
     tapped.remove();
   };
 }
 
-async function fetchNotifications(token: string) {
-  const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/me/notifications`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  if (!response.ok) throw new Error(`GET /me/notifications: ${response.status}`);
-  return response.json();
+export async function clearInboxCaptureHistory() {
+  await Promise.allSettled([
+    Notifications.dismissAllNotificationsAsync(),
+    Notifications.clearLastNotificationResponseAsync(),
+  ]);
 }
 
 function warn(error: unknown) {

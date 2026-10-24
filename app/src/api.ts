@@ -270,4 +270,5 @@ export const notificationTarget = {
   document_received: '/documents',
   position_changed: '/home',
   analysis_done: '/history',
+  exam_analyzing: '/documents',
 } as const;

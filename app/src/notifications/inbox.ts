@@ -27,7 +27,7 @@ const KNOWN_TYPES: PushType[] = [
 ];
 
 /**
- * Valida um aviso no formato `{ id, type, title, body, sentAt }`, vindo do push ou de `GET /me/notifications`.
+ * Valida um aviso no formato `{ id, type, title, body, sentAt }`, vindo do push ou da adaptação de `api.getNotifications()`.
  * Qualquer campo inválido ou tipo desconhecido devolve `null`.
  */
 export function parseNotification(raw: unknown): InboxItem | null {

@@ -15,7 +15,7 @@ export type TimelineEvent = {
   tone: 'strong' | 'light' | 'muted';
 };
 
-export type NotificationKind = 'document_received' | 'exam_requested' | 'position_changed' | 'analysis_done';
+export type NotificationKind = 'document_received' | 'exam_requested' | 'position_changed' | 'analysis_done' | 'exam_analyzing';
 
 export type AppNotification = {
   id: string;

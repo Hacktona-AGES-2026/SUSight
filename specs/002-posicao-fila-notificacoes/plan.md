@@ -46,7 +46,7 @@ A posição exibida é sempre a da fila oficial aprovada (`request.position`). A
 | SVGs do Figma com `expo-image` | Fonte de ícones, redesenhar | Usa os ícones do design sem conversão |
 | Barra de abas própria | Barra padrão | O Figma usa uma barra flutuante com pílula na aba ativa |
 | Último dado em memória | Cache persistente | A sessão atual guarda os dados em memória; offline persistente está fora do MVP |
-| Sem push real | expo-notifications | Push real está fora do MVP; a lista de notificações vem da API |
+| Push da spec 004 e caixa persistente | Lista apenas na API | O complemento integra os avisos às telas existentes |
 
 ## Riscos
 
@@ -55,55 +55,24 @@ A posição exibida é sempre a da fila oficial aprovada (`request.position`). A
 
 ## Complemento: notificações persistentes
 
-Integrar à navegação e às telas existentes da `dev`.
+A base é o app completo da dev, incluindo a integração com o backend: Expo Router, abertura, login, Face ID, Início completo, Documentos e upload com termo, Histórico, Perfil, contatos, privacidade, widgets e ícone.
 
+### Abordagem
 
-Spec: ./spec.md
-Status: em revisão
+- `inbox.ts` valida os tipos conhecidos do push, reúne pelo identificador e ordena por data.
+- `inbox-store.ts` guarda até 50 avisos no AsyncStorage e avisa as telas quando a caixa muda. Ao sair, os avisos são apagados da memória e do aparelho.
+- `patient-notifications.ts` usa `api.getNotifications()` e `api.markNotificationsRead()`, preservando a seleção entre demonstração e backend feita na dev. O backend real usa `GET /notificacoes` e `POST /notificacoes/{id}/lida`; não é criada uma rota paralela de API.
+- O sino do Início e a rota de notificações existentes usam a mesma caixa. Receber um aviso atualiza o sino imediatamente. Abrir a lista marca os avisos como lidos, preservando o comportamento da dev; a leitura local persiste mesmo se a gravação no servidor falhar.
+- `NotificationBridge` inicia a captura após o login e a interrompe ao bloquear ou sair. Avisos recebidos, tocados e presentes na central do sistema entram na caixa; ao sair, o histórico do sistema também é limpo.
+- A tarefa em segundo plano da spec 004 acrescenta avisos somente com sessão válida. Respostas de uma sessão encerrada são descartadas.
+- As preferências existentes do Perfil continuam filtrando os avisos, mantendo pedidos de exame visíveis. As quatro abas e os links seguem no Expo Router. A lista abre Início, Documentos ou Histórico conforme `notificationTarget`.
 
-## Abordagem
+### Tipos e limites
 
-Este plano cobre a parte de notificações da spec 002 (itens 2, 10 a 12 e 14): o sino com o ponto de novo, a tela de notificações (42-816), os avisos por push e a navegação por abas, que é onde o toque no aviso chega. O conteúdo do Início (cartões de posição, cirurgia, motivo e situação, itens 1 e 3 a 9) e o modo sem conexão (item 13) ficam para um próximo plano da mesma spec.
+Push: `posicao_mudou`, `exame_pendente`, `documento_recebido`, `exame_em_analise` e `analise_concluida`, com `id`, `sentAt` e, opcionalmente, `widget`. O texto real e o motivo de uma mudança aprovada vêm do backend. Tipos de push desconhecidos são descartados.
 
-As push notifications já chegam ao iPhone e ao Android pela spec 004: permissão com explicação, registro do token, canal Android e tarefa em segundo plano. Este plano reaproveita isso e acrescenta:
+A caixa persistida permite consultar avisos sem rede. A entrega real de push depende das credenciais APNs/FCM. O registro de token e as atualizações de widgets seguem a spec 004.
 
-1. **Caixa de notificações:** todo aviso recebido vira um item guardado no aparelho, com título, texto, data e lido ou não. O item entra pelo push com o app aberto, pelo toque no aviso, pela tarefa em segundo plano e pelos avisos que ainda estão na central do sistema quando o app abre. Com o backend configurado, a lista também vem de `GET /me/notifications`. Os itens se juntam pelo `id`, sem repetir.
-2. **Só avisos conhecidos:** o app aceita apenas os tipos da spec 002 e da 004. Qualquer outro tipo, como uma proposta rejeitada ou uma reavaliação interna da IA, é descartado e não aparece na lista.
-3. **Telas:** abas com a barra flutuante do Figma, Início com o sino, tela de notificações com o "Voltar". Documentos, Histórico e Perfil ficam como telas vazias até as specs 001 e 003.
+### Verificação
 
-Toda a regra fica em TypeScript puro e é testada com Jest. As telas são testadas com a React Native Testing Library.
-
-Quem escreve o texto de cada aviso é o backend, porque ele conhece a posição e o motivo. O app valida, guarda e mostra. Os exemplos do script de push de teste e da demonstração seguem as regras da spec: nova posição com motivo em linguagem simples, sem alarme e sem data de cirurgia.
-
-## Dados e interfaces
-
-- **Tipos de aviso (`app/src/notifications/push.ts`):** `posicao_mudou`, `exame_pendente`, `documento_recebido`, `exame_em_analise` e, novo, `analise_concluida` (análise terminou sem mudança de posição). Toque em `analise_concluida` abre o Início.
-- **Push:** o `data` ganha `id` e `sentAt`. Formato completo: `data: { id, type, url, sentAt, widget }`, com título e texto no próprio aviso.
-- **Caixa (`app/src/notifications/inbox.ts`):**
-  - `parseNotification(content)`: valida o aviso e devolve o item ou `null`;
-  - `mergeInbox(current, incoming)`: junta pelo `id`, ordena do mais novo para o mais velho e guarda no máximo 50;
-  - `markRead(inbox, id)` e `unreadCount(inbox)`;
-  - `markerFor(item)`: cor do ponto (novo, novo pedindo ação, lido);
-  - `formatShortDate(date)`: "20 out".
-- **Armazenamento (`app/src/notifications/inbox-store.ts`):** guarda a caixa no AsyncStorage e avisa a tela quando muda (`useSyncExternalStore`).
-- **Captura (`app/src/notifications/capture.ts`):** liga o recebimento com o app aberto, o toque, os avisos que ainda estão na central e a tarefa em segundo plano à caixa.
-- **Backend:** pedido ao SUSight-Backend de `GET /me/notifications`, que devolve `[{ id, type, title, body, sentAt }]`. Sem `EXPO_PUBLIC_API_URL`, a caixa começa com itens de demonstração.
-- **Telas (`app/src/screens/`, `app/src/ui/`):** `AppShell` (aba atual e tela de notificações), `TabBar`, `HomeScreen` com `NotificationBell`, `NotificationsScreen` e telas vazias das outras abas.
-- **Tokens (`app/src/ui/theme.ts`):** cores e textos do Figma (Pulse/Corpo, Pulse/Subtítulo destaque, Pulse/Nota, Pulse/Aba e a sombra suave).
-
-## Decisões
-
-| Decisão | Alternativas consideradas | Motivo |
-|---|---|---|
-| Caixa guardada no aparelho e completada pela API | Só a API; só o que chegou por push | A lista abre sem rede e mostra o aviso na hora. A API traz o que chegou com o app desinstalado ou em outro aparelho. |
-| "Lido" guardado no aparelho | Marcar como lido na API | Não há rota para isso no backend ainda. Fica fácil trocar depois. |
-| Navegação por estado no `AppShell` | React Navigation; Expo Router | São quatro abas e uma tela. Evita uma dependência grande antes das specs 001 e 003 definirem o resto da navegação. |
-| Ícones do Figma com `react-native-svg` e a cor do traço pelo estado da aba | PNG; ícones de biblioteca | Mesmos ícones do Figma, e a cor muda entre aba ativa e inativa. |
-| Textos com a fonte do sistema e tamanho que acompanha o do aparelho | SF Pro embutida | A SF Pro é a fonte do iPhone. O Android usa a fonte dele. O Dynamic Type e o tamanho da fonte do Android continuam funcionando. |
-| Ponto rosa forte para novo, rosa claro para novo que pede ação, cinza para lido | Uma cor só | É o que o Figma mostra. A cor nunca é a única pista: o leitor de tela diz "novo" e "pede ação". |
-
-## Riscos
-
-- **A tela 42-816 tem textos que não valem mais** ("Precisamos de uma confirmação", "Atualização analisada"). Mitigação: a demonstração usa os avisos da spec (exame pendente, documento recebido, posição mudou, análise concluída), com o visual do Figma.
-- **`GET /me/notifications` e o `id` no push dependem do backend.** Mitigação: sem `id`, o app usa o identificador do aviso no aparelho. Sem backend, usa a demonstração.
-- **Desligar tipos de aviso é da spec 003.** O backend é quem deixa de enviar. O app não filtra nada além dos tipos desconhecidos.
+Preservar todos os testes da dev, incluindo a integração com a API real. Testar persistência, captura, aviso novo no sino existente, abertura dos Documentos completos, respeito às preferências e limpeza ao sair pelo Perfil. Verificar os tipos e gerar o bundle iOS com a entrada existente do Expo Router.

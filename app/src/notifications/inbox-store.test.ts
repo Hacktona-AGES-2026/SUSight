@@ -25,6 +25,17 @@ function item(id: string, overrides: Partial<InboxItem> = {}): InboxItem {
 }
 
 describe("caixa de notificações guardada no aparelho", () => {
+  it("apaga os avisos da conta anterior da memória e do aparelho", async () => {
+    const storage = memoryStorage([item("1")]);
+    const store = createInboxStore(storage);
+    await store.load();
+    await store.clear();
+    expect(store.getSnapshot()).toEqual([]);
+    const reopened = createInboxStore(storage);
+    await reopened.load();
+    expect(reopened.getSnapshot()).toEqual([]);
+  });
+
   it("começa vazia e lê o que estava guardado", async () => {
     const empty = createInboxStore(memoryStorage());
     await empty.load();

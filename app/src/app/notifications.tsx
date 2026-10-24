@@ -1,19 +1,19 @@
 import { router } from 'expo-router';
 import { useEffect } from 'react';
-import { api, notificationTarget, visibleNotifications } from '../api';
+import { notificationTarget, visibleNotifications } from '../api';
 import { Card, EmptyState, Event, Loading, NavBar, Screen } from '../components/ui';
 import { shortDate } from '../format';
 import { useSession } from '../session';
-import { useLoad } from '../useLoad';
+import { markPatientNotificationsRead, usePatientNotifications } from '../notifications/patient-notifications';
 
 /** "5 Notificações" (42-816). Opening the list marks everything as read. */
 export default function Notifications() {
-  const { data, loading, error, reload } = useLoad(() => api.getNotifications());
+  const { data, loading, error, reload } = usePatientNotifications();
   const { prefs } = useSession();
   const list = visibleNotifications(data ?? [], prefs.notifications);
 
   useEffect(() => {
-    if (data) api.markNotificationsRead();
+    if (data?.some((item) => !item.read)) markPatientNotificationsRead().catch(() => {});
   }, [data]);
 
   return (

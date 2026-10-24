@@ -8,6 +8,7 @@ import { Splash } from '../components/Splash';
 import { Button } from '../components/ui';
 import { SessionProvider, useSession } from '../session';
 import { WidgetBridge } from '../widgets/WidgetBridge';
+import { NotificationBridge } from '../notifications/NotificationBridge';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -81,6 +82,7 @@ export default function RootLayout() {
       <StatusBar style="dark" />
       <SessionProvider>
         <WidgetBridge />
+        <NotificationBridge />
         <Gate />
       </SessionProvider>
     </SafeAreaProvider>

@@ -16,20 +16,12 @@ Cada tarefa é pequena, verificável e vira um commit atômico. Cada tarefa come
 
 ## Complemento: notificações persistentes
 
-Integrar à navegação e às telas existentes da `dev`.
-
-
-Plano: ./plan.md
-
-Cada tarefa é pequena, verificável e vira um commit atômico. Os testes vêm antes do código (TDD).
-
-- [x] 1. Tipo `analise_concluida`: testes e toque abrindo o Início; script de push de teste com `id`, `sentAt`, o motivo na mudança de posição e o novo tipo.
-- [x] 2. Caixa: testes e `parseNotification`, `mergeInbox`, `markRead`, `unreadCount`, `markerFor` e `formatShortDate`, descartando tipos desconhecidos.
-- [x] 3. Armazenamento da caixa no AsyncStorage, com aviso de mudança para as telas.
-- [x] 4. Captura: aviso com o app aberto, toque, avisos na central ao abrir e tarefa em segundo plano entram na caixa.
-- [x] 5. Caixa vinda da API (`GET /me/notifications`) e demonstração sem backend.
-- [x] 6. Tokens do Figma, ícones e `react-native-svg`.
-- [x] 7. Barra de abas e `AppShell`: testes, quatro abas, aba ativa destacada e aviso ou widget abrindo a aba certa.
-- [x] 8. Sino no Início: testes, ponto de novo e abertura das notificações.
-- [x] 9. Tela de notificações: testes, lista com ponto, título, texto e data, toque marcando como lido e abrindo a tela do aviso, lista vazia e leitor de tela.
-- [x] 10. README do app: como testar as notificações e tabela de critérios e testes.
+- [x] Reaplicar somente os commits de notificações sobre a dev atual, incluindo a integração com o backend.
+- [x] Preservar os fluxos e os testes existentes de login, Face ID, Início, Documentos, Histórico, Perfil e widgets.
+- [x] Validar e persistir avisos conhecidos, sem duplicar identificadores.
+- [x] Capturar avisos recebidos, tocados e em segundo plano com a sessão existente.
+- [x] Integrar a caixa ao sino e à rota de notificações existentes, respeitando as preferências.
+- [x] Reutilizar a camada de API da dev e os endpoints reais de notificações.
+- [x] Limpar a caixa ao sair e descartar respostas de uma sessão encerrada.
+- [x] Manter as quatro abas, os links pelo Expo Router e o ícone da dev.
+- [x] Verificação automatizada: 168 testes, checagem de tipos e bundle iOS.

@@ -3,6 +3,7 @@ import * as SecureStore from 'expo-secure-store';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { AppState } from 'react-native';
 import { IDLE_LIMIT_MS } from './auth/session-policy';
+import { appInbox } from './notifications/app-inbox';
 
 export { IDLE_LIMIT_MS } from './auth/session-policy';
 
@@ -35,6 +36,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
 
   const signOut = useCallback(async () => {
     await SecureStore.deleteItemAsync('session');
+    await appInbox.clear().catch(() => {});
     setStatus('signedOut');
   }, []);
 

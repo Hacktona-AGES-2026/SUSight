@@ -37,7 +37,8 @@ TaskManager.defineTask(WIDGET_PUSH_TASK, async ({ data, error }) => {
   if (error) return;
   // O aviso também entra na lista do sino (spec 002).
   const item = fromBackgroundTask(data);
-  if (item) await appInbox.add([item]).catch(() => {});
+  const token = await getSessionToken();
+  if (item && token && await getSessionToken() === token) await appInbox.add([item]).catch(() => {});
   await updateWidgetsFromPush(data, deps);
 });
 

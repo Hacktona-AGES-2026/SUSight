@@ -53,6 +53,8 @@ export function createInboxStore(storage: InboxStorage) {
     },
     add: (incoming: InboxItem[]) => update((current) => mergeInbox(current, incoming)),
     markRead: (id: string) => update((current) => markRead(current, id)),
+    markAllRead: () => update((current) => current.map((item) => ({ ...item, read: true }))),
+    clear: () => update(() => []),
   };
 }
 
