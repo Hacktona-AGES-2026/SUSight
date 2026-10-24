@@ -37,6 +37,10 @@ Ainda não há telas de login. A abertura (nó 41-4, spec 002) é a tela anterio
 - [ ] Identificador e senha não aparecem em registros nem em mensagens de erro.
 - [ ] Textos em português do Brasil e linguagem simples.
 
+## Testes (TDD)
+
+Os testes vêm antes do código. Cada critério de aceite acima vira pelo menos um teste automatizado que falha primeiro (red), e a implementação só termina quando todos passam (green). Critério que não puder ser testado automaticamente leva uma justificativa escrita. Testes de componente e de fluxo do app (issue #26).
+
 ## Fora do escopo
 
 - Login do médico (Pulse Clinical, issue #15, com gov.br, CRM, senha e código de 6 dígitos).
