@@ -10,16 +10,13 @@
       "supportsTablet": false,
       "bundleIdentifier": "com.hacktonaages2026.pulse",
       "infoPlist": {
-        "NSFaceIDUsageDescription": "O SUSight usa o Face ID para proteger seus dados de saúde."
+        "UIBackgroundModes": [
+          "remote-notification"
+        ]
       },
       "entitlements": {
         "com.apple.security.application-groups": [
           "group.com.hacktonaages2026.pulse"
-        ]
-      },
-      "infoPlist": {
-        "UIBackgroundModes": [
-          "remote-notification"
         ]
       }
     },
@@ -104,7 +101,8 @@
           "color": "#A3205B",
           "defaultChannel": "avisos-da-fila"
         }
-      ]
+      ],
+      "expo-background-task"
     ],
     "scheme": [
       "susight",
