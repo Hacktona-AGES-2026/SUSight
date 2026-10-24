@@ -20,7 +20,8 @@
     "react-native-safe-area-context": "~5.10.1",
     "react-native-screens": "~4.30.0",
     "react-native-svg": "15.16.0",
-    "expo-dev-client": "~58.0.15"
+    "expo-dev-client": "~58.0.15",
+    "@bacons/apple-targets": "^5.0.0"
   },
   "devDependencies": {
     "@testing-library/react-native": "^14.1.0",
@@ -34,8 +35,8 @@
   },
   "scripts": {
     "start": "expo start",
-    "ios": "expo start --ios",
-    "android": "expo start --android",
+    "ios": "expo run:ios",
+    "android": "expo run:android",
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "web": "expo start --web"

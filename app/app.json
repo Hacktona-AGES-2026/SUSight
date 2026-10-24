@@ -11,6 +11,11 @@
       "bundleIdentifier": "com.hacktonaages2026.pulse",
       "infoPlist": {
         "NSFaceIDUsageDescription": "O SUSight usa o Face ID para proteger seus dados de saúde."
+      },
+      "entitlements": {
+        "com.apple.security.application-groups": [
+          "group.com.hacktonaages2026.pulse"
+        ]
       }
     },
     "android": {
@@ -48,7 +53,8 @@
           "faceIDPermission": "O SUSight usa o Face ID para proteger seus dados de saúde."
         }
       ],
-      "expo-image"
+      "expo-image",
+      "@bacons/apple-targets"
     ],
     "scheme": [
       "susight",
