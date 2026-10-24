@@ -5,17 +5,17 @@ Status: rascunho
 
 ## Contexto
 
-O paciente deve poder acompanhar a posição na fila e o próximo passo direto da tela inicial do celular, sem abrir o app. Os widgets mostram a mesma informação da tela de posição (spec 002) e herdam suas regras: só a fila oficial aprovada é exibida.
+O paciente deve poder acompanhar a posição na fila e os exames pendentes direto da tela inicial do celular, sem abrir o app. Os widgets mostram a mesma informação da tela de posição (spec 002) e herdam suas regras: só a fila oficial aprovada é exibida.
 
 ## Telas (Figma Hackathona-2026)
 
-Ainda não há design dos widgets. Eles devem reaproveitar a informação do cartão da posição (nó 41-21) e do último passo em "Situação atual" (nó 41-111), ambos na spec 002. O design precisa ser feito antes da implementação.
+Ainda não há design dos widgets. Eles devem reaproveitar a informação do cartão da posição (nó 41-21, spec 002) e a lista de documentos com situação "Pendente" (nó 41-252, spec 001). O design precisa ser feito antes da implementação.
 
 ## Comportamento esperado
 
 1. O paciente adiciona o widget de posição na fila à tela inicial. Ele mostra a posição atual, a prioridade e a data da última atualização.
-2. O paciente adiciona o widget de próximo passo. Ele mostra em frase curta o que acontece agora, por exemplo "Documento em análise" ou "O médico pediu mais informações".
-3. Tocar no widget abre o app na tela correspondente.
+2. O paciente adiciona o widget de exames pendentes. Ele mostra quantos exames o médico pediu e o paciente ainda não enviou, com o nome do primeiro. Sem exames pendentes, mostra "Nenhum exame pendente".
+3. Os widgets são só de visualização rápida. Tocar neles apenas abre o app: na tela de Início (posição) ou na aba Documentos (exames pendentes).
 4. Os widgets se atualizam quando a posição ou o próximo passo mudam, sem o paciente abrir o app.
 5. Sem dados ou sem conexão, o widget mostra a última informação conhecida com a data, ou orienta a abrir o app.
 6. Com Face ID ativado (spec 003), o widget mostra uma versão sem a posição exata quando o aparelho está bloqueado, para proteger a privacidade.
@@ -23,10 +23,10 @@ Ainda não há design dos widgets. Eles devem reaproveitar a informação do car
 
 ## Critérios de aceite
 
-- [ ] Existe um widget de posição na fila e um de próximo passo.
+- [ ] Existe um widget de posição na fila e um de exames pendentes.
 - [ ] Os dados exibidos coincidem com a tela de posição do app.
-- [ ] Os widgets atualizam após mudança aprovada, sem abrir o app.
-- [ ] Tocar abre o app na tela correta.
+- [ ] Os widgets atualizam após mudança aprovada ou novo exame pedido, sem abrir o app.
+- [ ] Tocar abre o app na tela correta e o widget não executa ações.
 - [ ] Sem conexão, mostram a última informação com data.
 - [ ] Com o aparelho bloqueado e Face ID ativo, a posição exata não é exibida.
 - [ ] Respeitam tamanho de texto do sistema, alvos de toque de 44 pt e contraste (issue #21).
