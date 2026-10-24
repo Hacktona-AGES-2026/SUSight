@@ -55,7 +55,7 @@ O preenchimento dos campos é feito pelo backend, nunca pelo app, e o resultado 
 
 ## Questões em aberto
 
-- Quais campos o OCR preenche (por exemplo, ASA, comorbidades, dor, limitação funcional, data do exame)? A lista vem dos critérios da issue #6.
+- O OCR preenche os campos dos critérios de análise, que são as colunas do dataset: limitação funcional, ASA, dor, questões socioeconômicas, comorbidades, tempo de espera, deterioração e CID. Todos podem ser extraídos de exame ou laudo, ou alguns vêm só do cadastro da regulação (por exemplo, tempo de espera)?
 - Se o OCR não conseguir ler um campo, o que acontece: o campo fica vazio para o médico ou o paciente é chamado a completar? (Era o "preencha dados faltantes" do quadro.)
 - O paciente vê o que foi extraído do documento ou só a situação?
 
