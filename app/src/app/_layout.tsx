@@ -31,7 +31,8 @@ function Gate() {
     if (status === 'signedIn') touch();
   }, [pathname, status, touch]);
 
-  const signedIn = status === 'signedIn';
+  // While loading or locked the app routes stay mounted under the cover, so deep links survive.
+  const signedOut = status === 'signedOut';
   // The navigator stays mounted; the opening screen and the Face ID lock cover it.
   const cover = status === 'loading' || !minElapsed || status === 'locked';
   return (
@@ -42,18 +43,14 @@ function Gate() {
         importantForAccessibility={cover ? 'no-hide-descendants' : 'auto'}
       >
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#fff' } }}>
-          <Stack.Protected guard={!signedIn}>
+          <Stack.Protected guard={signedOut}>
             <Stack.Screen name="login" />
             <Stack.Screen name="code" />
           </Stack.Protected>
-          <Stack.Protected guard={signedIn}>
+          <Stack.Protected guard={!signedOut}>
             <Stack.Screen name="(tabs)" />
             <Stack.Screen name="notifications" />
             <Stack.Screen name="new-document" options={{ presentation: 'modal' }} />
-            <Stack.Screen name="contacts/index" />
-            <Stack.Screen name="contacts/new" options={{ presentation: 'modal' }} />
-            <Stack.Screen name="contacts/[id]" />
-            <Stack.Screen name="privacy" />
           </Stack.Protected>
         </Stack>
       </View>

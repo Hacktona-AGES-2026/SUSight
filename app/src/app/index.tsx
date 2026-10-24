@@ -2,5 +2,7 @@ import { Redirect } from 'expo-router';
 import { useSession } from '../session';
 
 export default function Index() {
-  return <Redirect href={useSession().status === 'signedIn' ? '/home' : '/login'} />;
+  const { status } = useSession();
+  if (status === 'loading') return null;
+  return <Redirect href={status === 'signedOut' ? '/login' : '/home'} />;
 }
