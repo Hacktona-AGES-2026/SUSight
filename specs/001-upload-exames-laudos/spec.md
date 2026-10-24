@@ -19,7 +19,7 @@ O paciente em espera por cirurgia eletiva envia exames e laudos para que a IA re
 ## Comportamento esperado
 
 1. Na aba Documentos, o paciente vê a lista dos documentos que enviou, do mais recente ao mais antigo. Cada item mostra nome, tipo, data e situação.
-2. As situações possíveis são três: **Pendente** (exame pedido pelo médico que o paciente ainda não enviou), **Recebido** (logo após o envio) e **Em análise** (enquanto o texto do documento é extraído por OCR). O paciente não precisa confirmar nada nos documentos.
+2. As situações possíveis são três: **Pendente** (exame pedido pelo médico que o paciente ainda não enviou), **Recebido** (logo após o envio) e **Em análise** (enquanto o backend lê o documento por OCR e preenche sozinho os campos dos critérios da fila). O paciente não preenche esses campos nem confirma nada nos documentos.
 3. Quando o médico pede um exame, ele aparece na lista como item "Pendente", com o nome do exame pedido. Ao enviar o arquivo para esse item, ele passa a "Recebido" e depois "Em análise".
 4. "Adicionar documento" abre o seletor de origem: câmera, biblioteca de fotos ou Arquivos. Formatos aceitos: PDF, JPG e PNG, até 20 MB.
 5. Escolhido o arquivo, abre "Novo documento" com pré-visualização, nome, origem, tamanho e um selo "Legível" quando a imagem puder ser lida. "Cancelar" volta sem enviar.
@@ -29,7 +29,7 @@ O paciente em espera por cirurgia eletiva envia exames e laudos para que a IA re
 9. Se a imagem não estiver legível, o selo avisa antes do envio e o paciente pode trocar o arquivo.
 10. Se o envio falhar, o app explica o motivo em linguagem simples e permite tentar de novo sem perder a seleção, o tipo nem as observações.
 
-O app nunca interpreta o conteúdo do exame, não promete que a posição vai subir e não faz diagnóstico.
+O preenchimento dos campos é feito pelo backend, nunca pelo app, e o resultado é só uma entrada para a IA e para a revisão do médico. O app nunca interpreta o conteúdo do exame, não promete que a posição vai subir e não faz diagnóstico.
 
 ## Critérios de aceite
 
@@ -54,6 +54,10 @@ O app nunca interpreta o conteúdo do exame, não promete que a posição vai su
 - Edição do conteúdo do documento dentro do app.
 
 ## Questões em aberto
+
+- Quais campos o OCR preenche (por exemplo, ASA, comorbidades, dor, limitação funcional, data do exame)? A lista vem dos critérios da issue #6.
+- Se o OCR não conseguir ler um campo, o que acontece: o campo fica vazio para o médico ou o paciente é chamado a completar? (Era o "preencha dados faltantes" do quadro.)
+- O paciente vê o que foi extraído do documento ou só a situação?
 
 - Como a legibilidade é detectada (no aparelho ou no servidor) e o que acontece com um documento ilegível: bloqueia o envio ou só avisa?
 - O design 41-564 ainda mostra "Precisa de confirmação", "Revisado" e o cartão "Confirmação pedida". Atualizar o Figma para refletir só Pendente, Recebido e Em análise.
