@@ -16,7 +16,7 @@ Cada tarefa é pequena, verificável e vira um commit atômico. Os testes vêm a
 - [x] 10. README do app: development build, teste dos widgets no simulador e tabela de critérios e testes.
 - [x] 11. Retrato: testes e campos `nextExam`, `week` e `accessibilityText`.
 - [x] 12. VoiceOver e Dynamic Type nos widgets do iPhone: rótulo único com `accessibilityText`, anel e marcadores escondidos do leitor de tela.
-- [ ] 13. Dados remotos: testes e `parseWidgetPayload` para o payload do push e de `GET /me/widget`.
+- [x] 13. Dados remotos: testes e `parseWidgetPayload` para o payload do push e de `GET /me/widget`.
 - [ ] 14. Widgets Android: `react-native-android-widget`, widget largo, "Próximo exame" e "Esta semana", com TalkBack e fonte em `sp`.
 - [ ] 15. `refreshAllWidgets`: testes e atualização do iPhone e do Android a partir do mesmo retrato.
 - [ ] 16. Push: testes e permissão com explicação, registro do token, canal Android e toque abrindo a aba certa.
