@@ -53,6 +53,7 @@ A entrada `index.ts` registra as tarefas dos widgets e carrega o Expo Router. Os
 
 - `GET /me/widget` devolve `{ queue: { position, total, positionWeekAgo, positionMonthAgo } | null, exams: [{ name, status, dueDate? }], updatedAt }`. O `status` é `pendente`, `recebido` ou `em_analise`.
 - `POST /me/push-token` com `{ token }`.
+- `GET /me/notifications` devolve `[{ id, type, title, body, sentAt }]`, a lista do sino (spec 002).
 - Push pelo serviço do Expo, com `data: { id, type, url, sentAt, widget }` e `_contentAvailable: true`. Os tipos são `posicao_mudou`, `exame_em_analise`, `exame_pendente`, `documento_recebido` e `analise_concluida`.
 
 ## Push notifications
@@ -70,6 +71,17 @@ npm run push:test -- "ExponentPushToken[...]" posicao_mudou
 ```
 
 Com o app fechado, o widget deve mudar para a posição do push (31ª no exemplo de `posicao_mudou`).
+
+## Notificações no app (spec 002)
+
+O sino do Início mostra um ponto quando há avisos novos e abre a tela de notificações. Todo aviso que chega ao aparelho entra nessa lista: com o app aberto, tocado, ainda na central do sistema ao abrir o app, ou recebido com o app fechado pela tarefa em segundo plano. Com `EXPO_PUBLIC_API_URL`, a lista também vem de `GET /me/notifications`. Sem backend, ela começa com avisos de demonstração.
+
+- O ponto é rosa forte para aviso novo, rosa claro para exame pedido ainda não lido e cinza para aviso lido.
+- Tocar num aviso marca como lido e abre a tela dele: Início para posição e análise concluída, Documentos para os avisos de exame e documento.
+- O app só aceita os tipos acima. Rejeição pelo médico, reavaliação da IA ou qualquer outro tipo é descartado.
+- Documentos, Histórico e Perfil ainda são telas vazias (specs 001 e 003). O Início tem só o topo com o sino; os cartões vêm no próximo plano da spec 002.
+
+Para testar sem backend, mande um push com `npm run push:test` (ver acima) e abra o sino.
 
 ## Testar os widgets
 
@@ -100,5 +112,17 @@ Para testar num iPhone de verdade, é preciso uma conta Apple Developer e o `ios
 | Tamanho de texto do sistema, alvos de 44 pt e contraste | `android/widgets.test.tsx` (fonte do Android). Dynamic Type e contraste verificados manualmente. |
 | VoiceOver e TalkBack leem uma frase completa | `snapshot.test.ts` (frase) e `android/widgets.test.tsx` (rótulos). VoiceOver verificado no simulador. |
 | Português do Brasil, sem alarme e sem prometer data de cirurgia | `snapshot.test.ts` e `push.test.ts`. |
+
+| Critério (spec 002, notificações e abas) | Como é verificado |
+|---|---|
+| As quatro abas funcionam e a ativa é destacada | `tab-bar.test.tsx` e `app-shell.test.tsx`. |
+| Aprovação que muda a posição gera aviso com nova posição e motivo | `send-test-push.test.ts` e `remote.test.ts` (textos de exemplo). O texto real vem do backend. |
+| Documento recebido e pedido de exame geram aviso | `inbox.test.ts`, `capture-logic.test.ts` e `send-test-push.test.ts`. |
+| Rejeição pelo médico não gera aviso | `inbox.test.ts` e `capture-logic.test.ts` (tipo desconhecido é descartado). O backend não envia esse aviso. |
+| Tocar no aviso abre a tela correspondente | `push.test.ts`, `app-shell.test.tsx` e `notifications-screen.test.tsx`. |
+| O sino mostra o ponto de aviso novo e abre as notificações | `notification-bell.test.tsx` e `app-shell.test.tsx`. |
+| Lista guardada no aparelho, sem repetir avisos | `inbox.test.ts` e `inbox-store.test.ts`. |
+| Leitor de tela lê cada aviso como frase, sem depender da cor | `notifications-screen.test.tsx`. VoiceOver e TalkBack verificados no aparelho. |
+| Português do Brasil, sem alarme e sem prometer data de cirurgia | `remote.test.ts` e `send-test-push.test.ts`. |
 
 Limitação conhecida: a notificação "Analisando seu exame" do Android não mostra o indicador circular de progresso do Figma, porque as notificações do Expo não desenham progresso customizado.
