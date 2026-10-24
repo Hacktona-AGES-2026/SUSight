@@ -7,6 +7,10 @@ Status: rascunho
 
 O paciente deve poder acompanhar a posição na fila e o próximo passo direto da tela inicial do celular, sem abrir o app. Os widgets mostram a mesma informação da tela de posição (spec 002) e herdam suas regras: só a fila oficial aprovada é exibida.
 
+## Telas (Figma Hackathona-2026)
+
+Ainda não há design dos widgets. Eles devem reaproveitar a informação do cartão da posição (nó 41-21) e do último passo em "Situação atual" (nó 41-111), ambos na spec 002. O design precisa ser feito antes da implementação.
+
 ## Comportamento esperado
 
 1. O paciente adiciona o widget de posição na fila à tela inicial. Ele mostra a posição atual, a prioridade e a data da última atualização.

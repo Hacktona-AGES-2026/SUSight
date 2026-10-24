@@ -7,6 +7,10 @@ Status: rascunho
 
 A condição do paciente pode piorar durante a espera. Deterioração e dor são critérios da fila. Nesta tela o paciente relata como está (dor, mobilidade, texto ou áudio) e esse relato entra no ciclo da IA como informação complementar. Relatos do paciente não substituem exames: sozinhos nunca alteram a fila, apenas alimentam a análise que o médico revisa.
 
+## Telas (Figma Hackathona-2026)
+
+Ainda não há tela própria de "Atualizar situação". Só existe o ponto de entrada: o cartão "Atualizar minha situação" na tela de Início (nó 41-111), com a nota "cerca de 2 minutos, não é preciso ter exames novos". A tela precisa ser desenhada antes da implementação.
+
 ## Comportamento esperado
 
 1. O paciente abre "Atualizar situação" e informa:

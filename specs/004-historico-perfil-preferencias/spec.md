@@ -7,6 +7,10 @@ Status: rascunho
 
 O paciente precisa de um lugar único para rever tudo o que enviou e recebeu ("histórico geral"), conferir seus dados e controlar privacidade e avisos. Esta tela também concentra os direitos do paciente pela LGPD.
 
+## Telas (Figma Hackathona-2026)
+
+Ainda não há telas de Histórico nem de Perfil. Só existem as duas abas na barra inferior e o ponto de entrada "Ver histórico completo" com a lista "Acontecimentos recentes" na tela de Início (nó 41-111, spec 002). Elas precisam ser desenhadas antes da implementação. O histórico deve reaproveitar o estilo dessa lista de eventos e dos documentos (spec 001).
+
 ## Comportamento esperado
 
 **Histórico**
