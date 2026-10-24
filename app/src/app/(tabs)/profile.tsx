@@ -12,6 +12,20 @@ export default function Profile() {
   const { data, loading, error, reload } = useLoad(() => Promise.all([api.getProfile(), api.getContacts()]));
   const { prefs, setPref, signOut } = useSession();
 
+  // Works with or without a connection: signing out only clears the session on this phone.
+  const leave = (
+    <Button
+      label="Sair da conta"
+      kind="danger"
+      onPress={() =>
+        Alert.alert('Sair da conta?', 'Para voltar, você vai precisar entrar com seu CPF de novo.', [
+          { text: 'Cancelar', style: 'cancel' },
+          { text: 'Sair', style: 'destructive', onPress: signOut },
+        ])
+      }
+    />
+  );
+
   if (!data) {
     return (
       <Screen title="Perfil">
@@ -27,6 +41,7 @@ export default function Profile() {
             />
           )
         )}
+        {!loading && leave}
       </Screen>
     );
   }
@@ -99,16 +114,7 @@ export default function Profile() {
         />
       </Card>
 
-      <Button
-        label="Sair da conta"
-        kind="danger"
-        onPress={() =>
-          Alert.alert('Sair da conta?', 'Para voltar, você vai precisar entrar com seu CPF de novo.', [
-            { text: 'Cancelar', style: 'cancel' },
-            { text: 'Sair', style: 'destructive', onPress: signOut },
-          ])
-        }
-      />
+      {leave}
     </Screen>
   );
 }
