@@ -22,4 +22,4 @@ Cada tarefa é pequena, verificável e vira um commit atômico. Os testes vêm a
 - [x] 16. Push: testes e permissão com explicação, registro do token, canal Android e toque abrindo a aba certa.
 - [x] 17. Segundo plano: testes e tarefas de push e periódica, com token no `expo-secure-store`.
 - [x] 18. Script de push de teste para validar sem o backend.
-- [ ] 19. README: push no EAS (APNs e FCM), teste nos dois sistemas e tabela de critérios e testes atualizada.
+- [x] 19. README: push no EAS (APNs e FCM), teste nos dois sistemas e tabela de critérios e testes atualizada.
