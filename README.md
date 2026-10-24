@@ -30,4 +30,15 @@ npm run typecheck
 npm run ios         # build de desenvolvimento no simulador
 ```
 
-O backend ainda não tem rotas para o paciente, então o app usa dados de exemplo em `app/src/api.ts`. O paciente de demonstração é fictício: o CPF e o código de verificação estão em `DEMO`, no mesmo arquivo.
+Sem configuração, o app usa dados de exemplo em `app/src/api.ts`. O paciente de demonstração é fictício: o CPF e o código de verificação estão em `DEMO`, no mesmo arquivo.
+
+### Rodar contra o SUSight-Backend
+
+Com o backend no ar (veja o README dele; `tools/seed_demo.py` cria a fila e o paciente de demonstração), aponte o app para ele:
+
+```sh
+cd app
+EXPO_PUBLIC_API_URL=http://localhost:8000 npx expo start   # em celular real, use o IP do computador
+```
+
+Entre com o CPF `529.982.247-25` e o código `123456`. O backend não envia SMS: o código é a senha provisória da conta. Ele também não guarda nome, município, data de nascimento nem telefone do paciente, então Perfil e o cabeçalho mostram só o que existe. O envio de documento pede o aceite do termo do backend e liga o arquivo ao pedido de exame, quando houver.
