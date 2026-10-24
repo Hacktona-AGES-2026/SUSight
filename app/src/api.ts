@@ -301,3 +301,14 @@ export const api = {
     await wait();
   },
 };
+
+/** With in-app notices turned off, only the requested-exam notice still shows (spec 003). */
+export const visibleNotifications = (list: AppNotification[], noticesOn: boolean) =>
+  noticesOn ? list : list.filter((n) => n.kind === 'exam_requested');
+
+export const notificationTarget = {
+  exam_requested: '/documents',
+  document_received: '/documents',
+  position_changed: '/home',
+  analysis_done: '/history',
+} as const;

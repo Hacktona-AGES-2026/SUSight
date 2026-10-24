@@ -129,8 +129,20 @@ export function NavBar({ title, back, cancel }: { title: string; back?: string; 
   );
 }
 
-export function Card({ children, style }: { children: ReactNode; style?: ViewStyle }) {
-  return <View style={[s.card, style]}>{children}</View>;
+export function Card({
+  children,
+  style,
+  accessibilityLabel,
+}: {
+  children: ReactNode;
+  style?: ViewStyle;
+  accessibilityLabel?: string;
+}) {
+  return (
+    <View style={[s.card, style]} accessibilityLabel={accessibilityLabel}>
+      {children}
+    </View>
+  );
 }
 
 export function SectionTitle({ children }: { children: string }) {
@@ -394,7 +406,11 @@ export function TextField({ label, error, ...props }: { label: string; error?: s
         {...props}
       />
       {!!error && (
-        <Text style={[type.note, { color: colors.dangerInk }]} accessibilityRole="alert" accessibilityLiveRegion="polite">
+        <Text
+          style={[type.note, { color: colors.dangerInk }]}
+          accessibilityRole="alert"
+          accessibilityLiveRegion="polite"
+        >
           {error}
         </Text>
       )}
