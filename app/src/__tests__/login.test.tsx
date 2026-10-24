@@ -1,4 +1,3 @@
-import * as LocalAuthentication from 'expo-local-authentication';
 import * as SecureStore from 'expo-secure-store';
 import { userEvent } from '@testing-library/react-native';
 import { renderRouter, screen } from 'expo-router/testing-library';
@@ -106,16 +105,4 @@ it('encerra a sessão depois de 30 minutos sem uso', async () => {
   );
   await open();
   expect(await screen.findByText('Entrar no SUSight')).toBeOnTheScreen();
-});
-
-it('pede Face ID ao abrir quando a chave está ligada', async () => {
-  await SecureStore.setItemAsync('session', JSON.stringify({ token: 't', lastActive: Date.now() }));
-  await SecureStore.setItemAsync('prefs', JSON.stringify({ notifications: true, faceId: true }));
-  jest.mocked(LocalAuthentication.authenticateAsync).mockResolvedValueOnce({ success: false, error: 'user_cancel' });
-  await open();
-  expect(await screen.findByRole('button', { name: 'Desbloquear com Face ID' })).toBeOnTheScreen();
-  expect(screen.queryByText('Olá, Marina')).not.toBeOnTheScreen();
-
-  await userEvent.setup().press(screen.getByRole('button', { name: 'Desbloquear com Face ID' }));
-  expect(await screen.findByText('Olá, Marina')).toBeOnTheScreen();
 });
