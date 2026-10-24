@@ -1,6 +1,16 @@
 # SUSight
 
-Aplicação para gerenciar a fila de cirurgias eletivas do SUS de forma justa, segura e explicável.
+Aplicação para gerenciar a fila de cirurgias do SUS de forma justa, segura e explicável. A IA propõe; o médico decide.
+
+## Os três repositórios
+
+| Repositório | O que é |
+|---|---|
+| [SUSight-Backend](https://github.com/Hacktona-AGES-2026/SUSight-Backend) | API, tratamento do dataset, pontuação (ROR), leitura de exames (OCR) e tribunal de IAs. Tem o `DECISOES.md`, o `fila_priorizada.csv` e o passo a passo para rodar tudo do zero. |
+| [SUSight-Web](https://github.com/Hacktona-AGES-2026/SUSight-Web) | Web do médico: fila, revisão das propostas com o parecer do tribunal, decisões e exportação. |
+| SUSight (este) | App do paciente (`app/`): posição na fila, histórico, exames pedidos e envio de documentos. |
+
+Para a demonstração completa, comece pelo **README do backend** (seção "Rodar a demonstração do zero").
 
 ## Spec-Driven Development (SDD)
 
@@ -30,15 +40,15 @@ npm run typecheck
 npm run ios         # build de desenvolvimento no simulador
 ```
 
-Sem configuração, o app usa dados de exemplo em `app/src/api.ts`. O paciente de demonstração é fictício: o CPF e o código de verificação estão em `DEMO`, no mesmo arquivo.
+Sem configuração, o app usa dados de exemplo em `app/src/api.ts`. O paciente de demonstração é fictício: o CPF e o código de acesso estão em `DEMO`, no mesmo arquivo.
 
 ### Rodar contra o SUSight-Backend
 
-Com o backend no ar (veja o README dele; `tools/seed_demo.py` cria a fila e o paciente de demonstração), aponte o app para ele:
+Com o backend no ar (veja o README dele; `tools/import_dataset_queue.py` importa a fila oficial e cria o paciente de demonstração), aponte o app para ele:
 
 ```sh
 cd app
 EXPO_PUBLIC_API_URL=http://localhost:8000 npx expo start   # em celular real, use o IP do computador
 ```
 
-Entre com o CPF `529.982.247-25` e o código `123456`. O backend não envia SMS: o código é a senha provisória da conta. Ele também não guarda nome, município, data de nascimento nem telefone do paciente, então Perfil e o cabeçalho mostram só o que existe. O envio de documento pede o aceite do termo do backend e liga o arquivo ao pedido de exame, quando houver.
+Entre com o CPF `529.982.247-25` e o código de acesso `123456` (paciente Pedro Freitas Medeiros). O login é só CPF e código, sem gov.br e sem SMS: o código é a senha provisória da conta. Ele também não guarda nome, município, data de nascimento nem telefone do paciente, então Perfil e o cabeçalho mostram só o que existe. O envio de documento abre o seletor de arquivos (PDF, JPG ou PNG), pede o aceite do termo do backend e liga o arquivo ao pedido de exame, quando houver; depois do envio, o backend lê o documento, reavalia a posição e manda a proposta ao médico. O PDF de demonstração está em [`docs/demo/`](docs/demo).
