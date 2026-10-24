@@ -277,8 +277,6 @@ export function createRealApi(baseUrl: string, fetchImpl: typeof fetch = fetch):
         conteudo_base64: toBase64(bytes),
         termo_versao: termVersion,
         aceite_termo: true,
-        // Demo environment only accepts synthetic documents (backend rule).
-        sintetico: true,
         pedido_id: requestedId,
       });
       if (!response.ok) {
