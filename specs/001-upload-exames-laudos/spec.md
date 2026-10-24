@@ -19,26 +19,28 @@ O paciente em espera por cirurgia eletiva envia exames e laudos para que a IA re
 ## Comportamento esperado
 
 1. Na aba Documentos, o paciente vê a lista dos documentos que enviou, do mais recente ao mais antigo. Cada item mostra nome, tipo, data e situação.
-2. As situações possíveis são só duas: **Recebido** (logo após o envio) e **Em análise** (enquanto o texto do documento é extraído por OCR). O paciente não precisa confirmar nada nos documentos.
-3. "Adicionar documento" abre o seletor de origem: câmera, biblioteca de fotos ou Arquivos. Formatos aceitos: PDF, JPG e PNG, até 20 MB.
-4. Escolhido o arquivo, abre "Novo documento" com pré-visualização, nome, origem, tamanho e um selo "Legível" quando a imagem puder ser lida. "Cancelar" volta sem enviar.
-5. O paciente escolhe o tipo: Exame, Laudo, Relatório ou Outro. O padrão é Exame.
-6. O paciente pode escrever observações opcionais para a equipe.
-7. "Enviar documento" envia. Ao voltar para a lista, aparece o aviso "Documento recebido" dizendo que um profissional de saúde vai analisar e que o paciente será avisado das novidades.
-8. Se a imagem não estiver legível, o selo avisa antes do envio e o paciente pode trocar o arquivo.
-9. Se o envio falhar, o app explica o motivo em linguagem simples e permite tentar de novo sem perder a seleção, o tipo nem as observações.
+2. As situações possíveis são três: **Pendente** (exame pedido pelo médico que o paciente ainda não enviou), **Recebido** (logo após o envio) e **Em análise** (enquanto o texto do documento é extraído por OCR). O paciente não precisa confirmar nada nos documentos.
+3. Quando o médico pede um exame, ele aparece na lista como item "Pendente", com o nome do exame pedido. Ao enviar o arquivo para esse item, ele passa a "Recebido" e depois "Em análise".
+4. "Adicionar documento" abre o seletor de origem: câmera, biblioteca de fotos ou Arquivos. Formatos aceitos: PDF, JPG e PNG, até 20 MB.
+5. Escolhido o arquivo, abre "Novo documento" com pré-visualização, nome, origem, tamanho e um selo "Legível" quando a imagem puder ser lida. "Cancelar" volta sem enviar.
+6. O paciente escolhe o tipo: Exame, Laudo, Relatório ou Outro. O padrão é Exame.
+7. O paciente pode escrever observações opcionais para a equipe.
+8. "Enviar documento" envia. Ao voltar para a lista, aparece o aviso "Documento recebido" dizendo que um profissional de saúde vai analisar e que o paciente será avisado das novidades.
+9. Se a imagem não estiver legível, o selo avisa antes do envio e o paciente pode trocar o arquivo.
+10. Se o envio falhar, o app explica o motivo em linguagem simples e permite tentar de novo sem perder a seleção, o tipo nem as observações.
 
 O app nunca interpreta o conteúdo do exame, não promete que a posição vai subir e não faz diagnóstico.
 
 ## Critérios de aceite
 
-- [ ] A lista mostra nome, tipo, data e situação de cada documento, com as situações Recebido e Em análise.
+- [ ] A lista mostra nome, tipo, data e situação de cada documento, com as situações Pendente, Recebido e Em análise.
 - [ ] O seletor oferece câmera, biblioteca de fotos e Arquivos.
 - [ ] Apenas PDF, JPG e PNG de até 20 MB são aceitos. Outros são recusados com mensagem em português do Brasil.
 - [ ] A tela "Novo documento" mostra pré-visualização, nome, origem, tamanho e legibilidade antes do envio.
 - [ ] O tipo vem preenchido com Exame e pode ser trocado para Laudo, Relatório ou Outro.
 - [ ] As observações são opcionais.
 - [ ] Após o envio, o aviso "Documento recebido" aparece e o documento entra na lista como "Recebido".
+- [ ] Um exame pedido pelo médico aparece como "Pendente" e muda para "Recebido" quando o paciente o envia.
 - [ ] Nenhum documento exige confirmação do paciente depois do envio.
 - [ ] Falha de envio permite nova tentativa sem perder o preenchido.
 - [ ] Nenhum texto faz diagnóstico, promete mudança de posição ou usa tom de alarme.
@@ -54,7 +56,7 @@ O app nunca interpreta o conteúdo do exame, não promete que a posição vai su
 ## Questões em aberto
 
 - Como a legibilidade é detectada (no aparelho ou no servidor) e o que acontece com um documento ilegível: bloqueia o envio ou só avisa?
-- O design 41-564 ainda mostra "Precisa de confirmação", "Revisado" e o cartão "Confirmação pedida". Atualizar o Figma para refletir só Recebido e Em análise.
+- O design 41-564 ainda mostra "Precisa de confirmação", "Revisado" e o cartão "Confirmação pedida". Atualizar o Figma para refletir só Pendente, Recebido e Em análise.
 - O paciente pode enviar vários arquivos de uma vez ou um por envio?
 - O paciente pode cancelar ou excluir um documento já enviado?
 - A lista mostra três itens repetidos de "Eletrocardiograma pré-operatório" e "Raio-X do joelho direito" no Figma. São dados de exemplo ou reenvios? Isso muda a ordenação e o agrupamento.
