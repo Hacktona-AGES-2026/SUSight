@@ -26,3 +26,7 @@ jest.mock('expo-document-picker', () => ({ getDocumentAsync: jest.fn() }));
 beforeEach(() => {
   require('expo-secure-store').__store.clear();
 });
+
+// The demo API answers after a short delay and the opening screen stays up briefly.
+require('@testing-library/react-native').configure({ asyncUtilTimeout: 4000 });
+jest.setTimeout(20000);
