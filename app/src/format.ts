@@ -50,6 +50,8 @@ export const waitingTime = (iso: string, now = new Date()) => {
 const digits = (text: string) => text.replace(/\D/g, '');
 
 export const maskPhone = (phone: string) => {
+  // The backend already sends contact phones masked.
+  if (phone.includes('*')) return phone;
   const d = digits(phone);
   return `(${d.slice(0, 2)}) ${d[2]}•••• -${d.slice(-4)}`;
 };

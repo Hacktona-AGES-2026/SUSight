@@ -52,18 +52,26 @@ export default function Profile() {
         </View>
         <View style={{ flex: 1, gap: 2 }}>
           <Text style={type.bodyStrong}>{profile.name}</Text>
-          <Text style={[type.note, { color: colors.textSecondary }]}>Cartão SUS •••• •••• {profile.cnsLast4}</Text>
+          {!!profile.cnsLast4 && (
+            <Text style={[type.note, { color: colors.textSecondary }]}>Cartão SUS •••• •••• {profile.cnsLast4}</Text>
+          )}
         </View>
       </Card>
 
-      <SectionTitle>Dados básicos</SectionTitle>
-      <Card>
-        <Row title={profile.birthDate} subtitle="Nascimento" />
-        <Divider />
-        <Row title={maskPhone(profile.phone)} subtitle="Telefone" />
-        <Divider />
-        <Row title={profile.city} subtitle="Município" />
-      </Card>
+      {!!(profile.birthDate || profile.phone || profile.city) && (
+        <>
+          <SectionTitle>Dados básicos</SectionTitle>
+          <Card>
+            {[
+              profile.birthDate && <Row key="birth" title={profile.birthDate} subtitle="Nascimento" />,
+              profile.phone && <Row key="phone" title={maskPhone(profile.phone)} subtitle="Telefone" />,
+              profile.city && <Row key="city" title={profile.city} subtitle="Município" />,
+            ]
+              .filter(Boolean)
+              .flatMap((row, i) => (i ? [<Divider key={`d${i}`} />, row] : [row]))}
+          </Card>
+        </>
+      )}
       <Text style={[type.note, { color: colors.textSecondary, paddingHorizontal: 4 }]}>
         Para corrigir algum dado, procure a sua UBS.
       </Text>

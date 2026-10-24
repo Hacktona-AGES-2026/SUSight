@@ -44,7 +44,7 @@ export default function Home() {
   return (
     <Screen
       eyebrow="Minha jornada"
-      title={data ? `Olá, ${data.firstName}` : 'Olá'}
+      title={data?.firstName ? `Olá, ${data.firstName}` : 'Olá'}
       right={bell}
       refreshing={loading && !!data}
       onRefresh={reload}
@@ -101,7 +101,11 @@ export default function Home() {
             <Row
               icon="shield"
               title="Prioridade validada pela regulação"
-              subtitle={`Validada em ${fullDate(data.request.priority.validatedAt)}`}
+              subtitle={
+                data.request.priority.validatedAt
+                  ? `Validada em ${fullDate(data.request.priority.validatedAt)}`
+                  : undefined
+              }
               chip={{ label: data.request.priority.level, tone: 'strong' }}
             />
             <Divider />
@@ -151,14 +155,14 @@ function PositionCard({
       <View
         style={st.positionTop}
         accessible
-        accessibilityLabel={`Sua posição atual na fila do SUS: ${request.position}ª de ${request.total} pessoas, em ${request.specialty}, ${request.city}`}
+        accessibilityLabel={`Sua posição atual na fila do SUS: ${request.position}ª de ${request.total} pessoas${place(request) ? `, em ${place(request)}` : ''}`}
       >
         <Ring position={request.position} total={request.total} />
         <View style={{ flex: 1, gap: 4 }}>
           <Text style={[type.note, { color: colors.textMuted }]}>Sua posição atual na fila do SUS</Text>
           <Text style={type.title}>de {request.total} pessoas</Text>
           <Text style={[type.subtitle, { color: colors.textMuted }]}>
-            em {request.specialty} · {request.city}
+            {place(request) ? `em ${place(request)}` : ' '}
           </Text>
         </View>
       </View>
@@ -170,6 +174,9 @@ function PositionCard({
     </View>
   );
 }
+
+/** Specialty and city, skipping what the backend does not know. */
+const place = (r: { specialty: string; city: string }) => [r.specialty, r.city].filter(Boolean).join(' · ');
 
 const st = StyleSheet.create({
   bell: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
