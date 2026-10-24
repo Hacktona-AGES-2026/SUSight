@@ -23,10 +23,6 @@ struct PositionRing: View {
     .padding(lineWidth / 2)
     // Com Face ID ativo, o iOS esconde a posição com o aparelho bloqueado.
     .privacySensitive(snapshot.hideWhenLocked == true)
-    .accessibilityElement(children: .ignore)
-    .accessibilityLabel(
-      snapshot.positionText.map { "Sua posição na fila: \($0)" } ?? "Posição indisponível"
-    )
   }
 }
 
@@ -39,6 +35,7 @@ struct SignedOutView: View {
     Text(text)
       .font(.subheadline.weight(.semibold))
       .foregroundStyle(theme.primaryText)
+      .minimumScaleFactor(0.7)
       .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
   }
 }

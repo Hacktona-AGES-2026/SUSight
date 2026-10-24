@@ -19,11 +19,19 @@ struct MediumPositionView: View {
             details(snapshot, theme: theme)
           }
         }
+        // VoiceOver lê o widget como uma frase só e abre o Início.
+        // Pelo toque, a lista de exames continua abrindo Documentos.
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(snapshot.spokenText)
+        .privacySensitive(snapshot.hideWhenLocked == true)
+        .widgetURL(URL(string: "pulse://inicio"))
       } else {
         SignedOutView(
           text: snapshot?.signedOutText ?? WidgetSnapshot.signedOutFallback,
           theme: theme
         )
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(snapshot?.spokenText ?? WidgetSnapshot.signedOutFallback)
         .widgetURL(URL(string: "pulse://inicio"))
       }
     }
@@ -35,6 +43,7 @@ struct MediumPositionView: View {
       Text("Sua posição")
         .font(.headline)
         .foregroundStyle(theme.primaryText)
+        .minimumScaleFactor(0.7)
       if let exams = snapshot.exams, !exams.isEmpty {
         ForEach(exams, id: \.self) { exam in
           HStack(spacing: 7) {
@@ -45,11 +54,13 @@ struct MediumPositionView: View {
               .font(.subheadline.weight(.semibold))
               .foregroundStyle(theme.itemText)
               .lineLimit(1)
+              .minimumScaleFactor(0.7)
             Spacer(minLength: 4)
             Text(exam.statusText)
               .font(.caption)
               .foregroundStyle(theme.secondaryText)
               .lineLimit(1)
+              .minimumScaleFactor(0.7)
           }
         }
       } else {

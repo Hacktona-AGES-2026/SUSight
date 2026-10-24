@@ -37,6 +37,10 @@ struct SmallPositionView: View {
         )
       }
     }
+    // VoiceOver lê o widget como uma frase só, sem o anel e os marcadores.
+    .accessibilityElement(children: .ignore)
+    .accessibilityLabel(snapshot?.spokenText ?? WidgetSnapshot.signedOutFallback)
+    .privacySensitive(snapshot?.hideWhenLocked == true)
     .containerBackground(for: .widget) { theme.background }
     // Tocar só abre o app, no Início (spec 004, item 3).
     .widgetURL(URL(string: "pulse://inicio"))

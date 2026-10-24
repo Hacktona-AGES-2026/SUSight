@@ -13,6 +13,7 @@ struct WidgetSnapshot: Decodable {
   let signedIn: Bool
   let variant: String
   let signedOutText: String?
+  let accessibilityText: String?
   let positionText: String?
   let ringProgress: Double?
   let pendingText: String?
@@ -38,6 +39,11 @@ struct WidgetSnapshot: Decodable {
 
   var isInverted: Bool { variant == "invertido" }
 
+  /// Frase lida pelo VoiceOver, montada no app (spec 004, item 10).
+  var spokenText: String {
+    accessibilityText ?? signedOutText ?? WidgetSnapshot.signedOutFallback
+  }
+
   /// Dados com mais de um dia: o widget mostra a data da informação (spec 004, item 8).
   var isStale: Bool {
     guard let updatedAt, let date = ISO8601DateFormatter().date(from: updatedAt) else {
@@ -51,6 +57,7 @@ struct WidgetSnapshot: Decodable {
     signedIn: true,
     variant: "padrao",
     signedOutText: nil,
+    accessibilityText: "Sua posição na fila: 42ª de 118. 2 exames pendentes. Subiu 11 posições este mês.",
     positionText: "42ª",
     ringProgress: 77.0 / 118.0,
     pendingText: "2 exames pendentes",

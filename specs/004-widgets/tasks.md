@@ -15,7 +15,7 @@ Cada tarefa é pequena, verificável e vira um commit atômico. Os testes vêm a
 - [x] 9. App grava o retrato de demonstração ao abrir, até as specs 001 a 003 existirem.
 - [x] 10. README do app: development build, teste dos widgets no simulador e tabela de critérios e testes.
 - [x] 11. Retrato: testes e campos `nextExam`, `week` e `accessibilityText`.
-- [ ] 12. VoiceOver e Dynamic Type nos widgets do iPhone: rótulo único com `accessibilityText`, anel e marcadores escondidos do leitor de tela.
+- [x] 12. VoiceOver e Dynamic Type nos widgets do iPhone: rótulo único com `accessibilityText`, anel e marcadores escondidos do leitor de tela.
 - [ ] 13. Dados remotos: testes e `parseWidgetPayload` para o payload do push e de `GET /me/widget`.
 - [ ] 14. Widgets Android: `react-native-android-widget`, widget largo, "Próximo exame" e "Esta semana", com TalkBack e fonte em `sp`.
 - [ ] 15. `refreshAllWidgets`: testes e atualização do iPhone e do Android a partir do mesmo retrato.
