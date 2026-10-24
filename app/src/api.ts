@@ -1,64 +1,17 @@
-import type { PickedFile } from './format';
+import {
+  type Api,
+  ApiError,
+  type AppNotification,
+  type Contact,
+  type Doc,
+  type DocType,
+  type Home,
+  type Profile,
+  type TimelineEvent,
+} from './apiTypes';
+import { createRealApi } from './realApi';
 
-export type Priority = 'Baixa' | 'Moderada' | 'Alta';
-export type DocType = 'Exame' | 'Laudo' | 'Relatório' | 'Outro';
-export type DocStatus = 'pending' | 'received' | 'analyzing';
-
-export type Doc = { id: string; name: string; type: DocType; date: string; status: DocStatus };
-
-export type TimelineEvent = {
-  id: string;
-  title: string;
-  detail: string;
-  date: string;
-  /** Recent facts get the strong dot, information requests the light one, old ones gray. */
-  tone: 'strong' | 'light' | 'muted';
-};
-
-export type NotificationKind = 'document_received' | 'exam_requested' | 'position_changed' | 'analysis_done';
-
-export type AppNotification = {
-  id: string;
-  kind: NotificationKind;
-  title: string;
-  body: string;
-  date: string;
-  read: boolean;
-};
-
-export type Home = {
-  firstName: string;
-  request: {
-    number: string;
-    procedure: string;
-    detail: string;
-    specialty: string;
-    city: string;
-    /** Position in the official queue approved by a doctor. Never a pending AI proposal. */
-    position: number;
-    total: number;
-    updatedAt: string;
-    referral: { date: string; place: string };
-    reason: string;
-    priority: { level: Priority; validatedAt: string };
-    lastStep: { title: string; detail: string; pending: boolean };
-    enteredAt: string;
-    lastClinicalUpdate: string;
-  };
-  recent: TimelineEvent[];
-};
-
-export type Profile = {
-  name: string;
-  initials: string;
-  cnsLast4: string;
-  birthDate: string;
-  phone: string;
-  city: string;
-};
-
-export type Relation = 'Filho ou filha' | 'Cônjuge' | 'Pai ou mãe' | 'Irmão ou irmã' | 'Outro';
-export type Contact = { id: string; name: string; relation: Relation; phone: string; since: string };
+export * from './apiTypes';
 
 // Demo patient while the backend has no patient routes. Fictitious data only.
 export const DEMO = { cpf: '52998224725', code: '123456', phone: '21987653187' };
@@ -125,9 +78,7 @@ export const resetDemo = () => {
 export const LOCK_MINUTES = 5;
 const MAX_ATTEMPTS = 5;
 
-export class ApiError extends Error {}
-
-export const api = {
+const demoApi: Api = {
   async requestCode(cpf: string) {
     await wait();
     // Same message for unknown CPF so the app never reveals who is registered.
@@ -180,7 +131,7 @@ export const api = {
         enteredAt: '2026-03-14',
         lastClinicalUpdate: '2026-09-08',
       },
-      recent: (await api.getHistory()).slice(0, 4),
+      recent: (await demoApi.getHistory()).slice(0, 4),
     };
   },
 
@@ -256,7 +207,7 @@ export const api = {
     return [...db.documents].sort((a, b) => b.date.localeCompare(a.date));
   },
 
-  async uploadDocument({ file, type, requestedId }: { file: PickedFile; type: DocType; requestedId?: string }) {
+  async uploadDocument({ file, type, requestedId }) {
     await wait();
     const name = file.name.replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' ');
     const pending = requestedId && db.documents.find((d) => d.id === requestedId);
@@ -267,6 +218,10 @@ export const api = {
     const doc: Doc = { id: `d${Date.now()}`, name, type, date: today(), status: 'received' };
     db.documents.push(doc);
     return doc;
+  },
+
+  async getTerm() {
+    return null;
   },
 
   async getProfile(): Promise<Profile> {
@@ -301,6 +256,10 @@ export const api = {
     await wait();
   },
 };
+
+/** Uses the SUSight-Backend when EXPO_PUBLIC_API_URL is set; otherwise the demo data above. */
+const backend = process.env.EXPO_PUBLIC_API_URL;
+export const api = backend ? createRealApi(backend) : demoApi;
 
 /** With in-app notices turned off, only the requested-exam notice still shows (spec 003). */
 export const visibleNotifications = (list: AppNotification[], noticesOn: boolean) =>

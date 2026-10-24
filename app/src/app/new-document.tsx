@@ -1,6 +1,6 @@
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { api, DocType } from '../api';
 import { Button, Icon, NavBar, Notice, Row, Screen } from '../components/ui';
@@ -24,14 +24,30 @@ export default function NewDocument() {
   const [docType, setDocType] = useState<DocType>('Exame');
   const [sending, setSending] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [term, setTerm] = useState<{ version: string; text: string } | null>(null);
+  const [accepted, setAccepted] = useState(false);
+  const [errorText, setErrorText] = useState('');
+
+  useEffect(() => {
+    api
+      .getTerm()
+      .then(setTerm)
+      .catch(() => {});
+  }, []);
 
   const send = async () => {
     setSending(true);
     setFailed(false);
     try {
-      await api.uploadDocument({ file, type: docType, requestedId: p.requestedId });
+      await api.uploadDocument({
+        file,
+        type: docType,
+        requestedId: p.requestedId,
+        termVersion: accepted ? term?.version : undefined,
+      });
       router.navigate({ pathname: '/documents', params: { received: '1' } });
-    } catch {
+    } catch (e) {
+      setErrorText((e as Error).message);
       setFailed(true);
       setSending(false);
     }
@@ -41,7 +57,14 @@ export default function NewDocument() {
     <Screen
       nav={<NavBar title={p.requestedName ?? 'Novo documento'} cancel />}
       tabs={false}
-      footer={<Button label={failed ? 'Tentar de novo' : 'Enviar documento'} onPress={send} loading={sending} />}
+      footer={
+        <Button
+          label={failed ? 'Tentar de novo' : 'Enviar documento'}
+          onPress={send}
+          loading={sending}
+          disabled={!!term && !accepted}
+        />
+      }
     >
       <View style={st.preview}>
         {file.mimeType?.startsWith('image/') && file.uri ? (
@@ -93,11 +116,28 @@ export default function NewDocument() {
         })}
       </View>
 
+      {term && (
+        <View style={st.term}>
+          <Text style={type.noteStrong}>Termo de envio de documentos</Text>
+          <Text style={[type.note, { color: colors.textSecondary }]}>{term.text}</Text>
+          <Pressable
+            onPress={() => setAccepted(!accepted)}
+            accessibilityRole="checkbox"
+            accessibilityState={{ checked: accepted }}
+            accessibilityLabel="Li e aceito o termo"
+            style={st.accept}
+          >
+            <View style={[st.box, accepted && st.boxOn]} />
+            <Text style={type.noteStrong}>Li e aceito o termo</Text>
+          </Pressable>
+        </View>
+      )}
+
       {failed && (
         <Notice
           tone="warning"
           title="Não foi possível enviar o documento"
-          text="Verifique sua conexão e tente de novo. O arquivo e o tipo escolhidos continuam aqui."
+          text={errorText || 'Verifique sua conexão e tente de novo. O arquivo e o tipo escolhidos continuam aqui.'}
         />
       )}
     </Screen>
@@ -105,6 +145,10 @@ export default function NewDocument() {
 }
 
 const st = StyleSheet.create({
+  term: { backgroundColor: colors.surface, borderRadius: 20, padding: 16, gap: 8 },
+  accept: { flexDirection: 'row', alignItems: 'center', gap: 10, minHeight: 44 },
+  box: { width: 24, height: 24, borderRadius: 7, borderWidth: 1.5, borderColor: colors.textMuted },
+  boxOn: { backgroundColor: colors.accentInk, borderColor: colors.accentInk },
   preview: { backgroundColor: colors.surface, borderRadius: 24, paddingVertical: 12 },
   thumb: { height: 150, borderRadius: 20, marginHorizontal: 4 },
   thumbFallback: {
