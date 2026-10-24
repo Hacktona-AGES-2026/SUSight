@@ -67,6 +67,10 @@ Esta spec também cobre a abertura do app e a navegação principal por abas (In
 - [ ] Textos em português do Brasil, sem alarme e sem prometer data de cirurgia.
 - [ ] O paciente pode desativar tipos de notificação (spec 003).
 
+## Testes (TDD)
+
+Os testes vêm antes do código. Cada critério de aceite acima vira pelo menos um teste automatizado que falha primeiro (red), e a implementação só termina quando todos passam (green). Critério que não puder ser testado automaticamente leva uma justificativa escrita. Testes de componente e de fluxo do app (issue #26).
+
 ## Fora do escopo
 
 - Cálculo da posição e das regras de equidade (backend, issue #6).

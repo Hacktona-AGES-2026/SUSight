@@ -66,6 +66,10 @@ Os nós 42-712 e 86-2167 são só rótulos de seção.
 - [ ] "Sair da conta" encerra a sessão.
 - [ ] Textos em português do Brasil e linguagem simples.
 
+## Testes (TDD)
+
+Os testes vêm antes do código. Cada critério de aceite acima vira pelo menos um teste automatizado que falha primeiro (red), e a implementação só termina quando todos passam (green). Critério que não puder ser testado automaticamente leva uma justificativa escrita. Testes de componente e de fluxo do app (issue #26).
+
 ## Fora do escopo
 
 - Editar ou apagar documentos já enviados.

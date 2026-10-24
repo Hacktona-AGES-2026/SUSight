@@ -46,6 +46,10 @@ O CID e o tempo de espera já vêm preenchidos do cadastro e não dependem do OC
 - [ ] Nenhum texto faz diagnóstico, promete mudança de posição ou usa tom de alarme.
 - [ ] O documento só é visível para o próprio paciente e para a equipe autorizada (LGPD).
 
+## Testes (TDD)
+
+Os testes vêm antes do código. Cada critério de aceite acima vira pelo menos um teste automatizado que falha primeiro (red), e a implementação só termina quando todos passam (green). Critério que não puder ser testado automaticamente leva uma justificativa escrita. Testes de componente e de fluxo do app (issue #26).
+
 ## Fora do escopo
 
 - Análise do documento e pontuação (backend, issues #7 e #6).

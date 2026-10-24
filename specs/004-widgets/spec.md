@@ -105,6 +105,10 @@ Todos os nós foram lidos só pela estrutura (nomes e textos), sem captura de te
 - [ ] Nenhum widget ou aviso aprova ou rejeita uma proposta.
 - [ ] Os avisos não expõem dados sensíveis além do necessário para identificar a proposta.
 
+## Testes (TDD)
+
+Os testes vêm antes do código. Cada critério de aceite acima vira pelo menos um teste automatizado que falha primeiro (red), e a implementação só termina quando todos passam (green). Critério que não puder ser testado automaticamente leva uma justificativa escrita. Testes de componente e de fluxo do app (issue #26).
+
 ## Fora do escopo
 
 - Widgets interativos com ações (enviar documento).
