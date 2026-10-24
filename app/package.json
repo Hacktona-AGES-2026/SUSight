@@ -23,7 +23,9 @@
     "expo-dev-client": "~58.0.15",
     "@bacons/apple-targets": "^5.0.0",
     "@react-native-async-storage/async-storage": "2.2.0",
-    "react-native-android-widget": "^0.24.0"
+    "react-native-android-widget": "^0.24.0",
+    "expo-device": "~58.0.5",
+    "expo-notifications": "~58.1.6"
   },
   "devDependencies": {
     "@testing-library/react-native": "^14.1.0",

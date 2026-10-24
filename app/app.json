@@ -16,6 +16,11 @@
         "com.apple.security.application-groups": [
           "group.com.hacktonaages2026.pulse"
         ]
+      },
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "remote-notification"
+        ]
       }
     },
     "android": {
@@ -91,6 +96,13 @@
               "updatePeriodMillis": 1800000
             }
           ]
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#A3205B",
+          "defaultChannel": "avisos-da-fila"
         }
       ]
     ],

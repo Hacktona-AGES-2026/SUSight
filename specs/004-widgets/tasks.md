@@ -19,7 +19,7 @@ Cada tarefa é pequena, verificável e vira um commit atômico. Os testes vêm a
 - [x] 13. Dados remotos: testes e `parseWidgetPayload` para o payload do push e de `GET /me/widget`.
 - [x] 14. Widgets Android: `react-native-android-widget`, widget largo, "Próximo exame" e "Esta semana", com TalkBack e fonte em `sp`.
 - [x] 15. `refreshAllWidgets`: testes e atualização do iPhone e do Android a partir do mesmo retrato.
-- [ ] 16. Push: testes e permissão com explicação, registro do token, canal Android e toque abrindo a aba certa.
+- [x] 16. Push: testes e permissão com explicação, registro do token, canal Android e toque abrindo a aba certa.
 - [ ] 17. Segundo plano: testes e tarefas de push e periódica, com token no `expo-secure-store`.
 - [ ] 18. Script de push de teste para validar sem o backend.
 - [ ] 19. README: push no EAS (APNs e FCM), teste nos dois sistemas e tabela de critérios e testes atualizada.
