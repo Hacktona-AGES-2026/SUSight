@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "SUSight",
+    "slug": "susight",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "br.ages.susight",
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "O SUSight usa o Face ID para proteger seus dados de saúde."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "br.ages.susight"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      "expo-secure-store",
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "O SUSight usa a câmera para fotografar exames e laudos.",
+          "photosPermission": "O SUSight acessa suas fotos para você escolher exames e laudos."
+        }
+      ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "O SUSight usa o Face ID para proteger seus dados de saúde."
+        }
+      ],
+      "expo-image"
+    ],
+    "scheme": "susight"
+  }
+}
