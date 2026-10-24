@@ -185,7 +185,7 @@ const demoApi: Api = {
       },
       {
         id: 'h1',
-        title: 'Entrada na fila de cirurgia eletiva',
+        title: 'Entrada na fila de cirurgia',
         detail: 'Encaminhamento da UBS Icaraí.',
         date: '2026-03-14',
         tone: 'muted' as const,

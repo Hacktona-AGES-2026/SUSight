@@ -15,7 +15,7 @@ describe('Histórico', () => {
       .getAllByLabelText(/\d{1,2} \w{3}$/)
       .map((e) => e.props.accessibilityLabel);
     expect(labels[0]).toMatch(/^Pedido de exame\. .*\. 22 out$/);
-    expect(labels.at(-1)).toBe('Entrada na fila de cirurgia eletiva. Encaminhamento da UBS Icaraí.. 14 mar');
+    expect(labels.at(-1)).toBe('Entrada na fila de cirurgia. Encaminhamento da UBS Icaraí.. 14 mar');
   });
 
   it('explica quando ainda não há eventos', async () => {
