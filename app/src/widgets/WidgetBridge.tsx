@@ -56,7 +56,10 @@ export function WidgetBridge() {
         exams: documents.map((document) => ({ name: document.name, status: EXAM_STATUS[document.status] })),
         faceIdEnabled: prefs.faceId,
         variant: 'padrao',
-        updatedAt: new Date(home.request.updatedAt),
+        // Data sem horário mantém o dia civil de Brasília, sem recuar um dia por UTC.
+        updatedAt: new Date(/^\d{4}-\d{2}-\d{2}$/.test(home.request.updatedAt)
+          ? `${home.request.updatedAt}T12:00:00-03:00`
+          : home.request.updatedAt),
       }), widgetTargets());
     };
     const update = () => refresh().catch((error) => console.warn('Não foi possível atualizar os widgets.', error));

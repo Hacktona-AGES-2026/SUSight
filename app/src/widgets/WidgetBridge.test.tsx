@@ -36,6 +36,7 @@ it('mostra a mesma fila e os mesmos documentos das telas e respeita o Face ID', 
   await waitFor(() => expect(refreshAllWidgets).toHaveBeenCalled());
   expect(jest.mocked(refreshAllWidgets).mock.calls[0][0]).toMatchObject({
     positionText: '42ª', pendingText: '1 exame pendente', hideWhenLocked: true,
+    updatedAtText: 'Atualizada em 24 de out',
     nextExam: { name: 'Risco cirúrgico' },
   });
   expect(setWidgetPreferences).toHaveBeenCalledWith({ faceIdEnabled: true });
