@@ -42,16 +42,18 @@ export default function Login() {
             Use sua conta gov.br ou seu CPF para acompanhar sua solicitação.
           </Text>
           <View style={{ height: 8 }} />
-          <Button
-            label="Entrar com gov.br"
-            kind="dark"
-            onPress={() =>
-              Alert.alert(
-                'gov.br em breve',
-                'O acesso pelo gov.br ainda não está disponível. Por enquanto, entre com seu CPF.',
-              )
-            }
-          />
+          <View style={{ alignSelf: 'stretch' }}>
+            <Button
+              label="Entrar com gov.br"
+              kind="dark"
+              onPress={() =>
+                Alert.alert(
+                  'gov.br em breve',
+                  'O acesso pelo gov.br ainda não está disponível. Por enquanto, entre com seu CPF.',
+                )
+              }
+            />
+          </View>
           <Text style={[type.caption, st.center, { color: colors.textSecondary }]}>ou entre com seu CPF</Text>
           <View style={{ alignSelf: 'stretch' }}>
             <TextField
