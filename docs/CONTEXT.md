@@ -53,7 +53,7 @@ Export CSV da fila ordenada (entrega do hackathon)
 
 - A IA só propõe. Nada muda na fila até um profissional aprovar.
 - Toda decisão é registrada com nome, data e hora.
-- A IA nunca decide sozinha. Relatos do paciente não substituem exames.
+- A IA nunca decide sozinha. A análise se baseia só em exames e laudos; o paciente não relata sintomas no app.
 - Sem diagnóstico e sem substituir atendimento de urgência (orientar para UPA ou SAMU 192).
 - Textos em português do Brasil, linguagem simples e sem alarme.
 
@@ -73,7 +73,7 @@ Em aberto: a descrição original fala em um advogado por paciente da lista. O m
 
 ## Produto
 
-- **Pulse (app do paciente, híbrido):** upload de exames e laudos, posição na fila, notificações, widgets, histórico, atualizar situação (dor, mobilidade, texto ou áudio), perfil e preferências (LGPD, Face ID).
+- **Pulse (app do paciente, híbrido):** upload de exames e laudos, posição na fila, notificações, widgets, histórico, perfil e preferências (LGPD, Face ID).
 - **Pulse Clinical (web, médico):** revisões pendentes, revisão da proposta com tribunal, aprovar, rejeitar com motivo ou pedir informações, fila do SUS e contestação, decisões registradas e exportar a fila em CSV.
 - Fora do escopo: chatbot do paciente.
 
