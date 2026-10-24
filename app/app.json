@@ -54,7 +54,45 @@
         }
       ],
       "expo-image",
-      "@bacons/apple-targets"
+      "@bacons/apple-targets",
+      [
+        "react-native-android-widget",
+        {
+          "widgets": [
+            {
+              "name": "PositionWidget",
+              "label": "Sua posição na fila",
+              "description": "Sua posição na fila e a situação dos seus exames.",
+              "minWidth": "250dp",
+              "minHeight": "110dp",
+              "targetCellWidth": 4,
+              "targetCellHeight": 2,
+              "resizeMode": "horizontal|vertical",
+              "updatePeriodMillis": 1800000
+            },
+            {
+              "name": "NextExamWidget",
+              "label": "Próximo exame",
+              "description": "O próximo exame que você precisa enviar.",
+              "minWidth": "110dp",
+              "minHeight": "110dp",
+              "targetCellWidth": 2,
+              "targetCellHeight": 2,
+              "updatePeriodMillis": 1800000
+            },
+            {
+              "name": "WeekWidget",
+              "label": "Esta semana",
+              "description": "Quanto sua posição subiu nesta semana.",
+              "minWidth": "110dp",
+              "minHeight": "110dp",
+              "targetCellWidth": 2,
+              "targetCellHeight": 2,
+              "updatePeriodMillis": 1800000
+            }
+          ]
+        }
+      ]
     ],
     "scheme": [
       "susight",
