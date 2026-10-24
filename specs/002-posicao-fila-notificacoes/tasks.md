@@ -25,7 +25,7 @@ Cada tarefa é pequena, verificável e vira um commit atômico. Os testes vêm a
 
 - [x] 1. Tipo `analise_concluida`: testes e toque abrindo o Início; script de push de teste com `id`, `sentAt`, o motivo na mudança de posição e o novo tipo.
 - [x] 2. Caixa: testes e `parseNotification`, `mergeInbox`, `markRead`, `unreadCount`, `markerFor` e `formatShortDate`, descartando tipos desconhecidos.
-- [ ] 3. Armazenamento da caixa no AsyncStorage, com aviso de mudança para as telas.
+- [x] 3. Armazenamento da caixa no AsyncStorage, com aviso de mudança para as telas.
 - [ ] 4. Captura: aviso com o app aberto, toque, avisos na central ao abrir e tarefa em segundo plano entram na caixa.
 - [ ] 5. Caixa vinda da API (`GET /me/notifications`) e demonstração sem backend.
 - [ ] 6. Tokens do Figma, ícones e `react-native-svg`.
