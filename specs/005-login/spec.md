@@ -1,6 +1,6 @@
 # Spec: Login do paciente
 
-Issue: a criar (não há issue de login do paciente)
+Issue: #32
 Status: rascunho
 
 ## Contexto
