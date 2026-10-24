@@ -42,7 +42,7 @@ Os links abaixo são os candidatos mapeados no Figma. Nem todos precisam entrar 
 | Ícone do app SUSight | 96-2590 |
 | Rótulos de seção: Paciente iOS, Paciente Android | 96-2, 97-85 |
 
-**Fora deste repositório:** 98-97 (Windows 11 · painel de widgets e notificações do médico) e 98-96 (rótulo "Médico Windows") são do Pulse Clinical (web) e não entram nesta spec. Os nós 102-4610, 98-97 e 106-838 foram lidos só em estrutura, sem captura de tela.
+**Fora deste repositório:** 98-97 (Windows 11 · painel de widgets e notificações do médico) e 98-96 (rótulo "Médico Windows") são do Pulse Clinical (web) e não entram nesta spec. Todos os nós foram lidos só pela estrutura (nomes e textos), sem captura de tela. O conteúdo das três notificações da tela de bloqueio iOS (101-583) não aparece na estrutura e foi assumido igual ao do Android.
 
 ## Comportamento esperado
 
