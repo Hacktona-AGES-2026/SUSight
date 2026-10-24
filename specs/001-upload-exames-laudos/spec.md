@@ -48,7 +48,7 @@ O app nunca interpreta o conteúdo do exame, não promete que a posição vai su
 
 - Análise do documento e pontuação (backend, issues #7 e #6).
 - Envio por chatbot (fora do escopo do projeto).
-- Pedido de confirmação ao paciente sobre um documento ("Precisa de confirmação", "Confirmação pedida") e situação "Revisado". O pedido de informações do médico segue pelo fluxo de atualizar situação (spec 003).
+- Pedido de confirmação ao paciente sobre um documento ("Precisa de confirmação", "Confirmação pedida") e situação "Revisado". O pedido de informações do médico (por exemplo, um novo exame) chega por notificação e o paciente o atende enviando um documento por este mesmo fluxo.
 - Edição do conteúdo do documento dentro do app.
 
 ## Questões em aberto

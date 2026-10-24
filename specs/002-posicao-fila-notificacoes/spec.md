@@ -39,7 +39,7 @@ Esta spec também cobre a abertura do app e a navegação principal por abas (In
 
 **Notificações**
 
-10. O paciente é notificado quando: o documento foi recebido; o médico pediu mais informações (o paciente responde em Atualizar situação, spec 003); o médico aprovou uma nova fila e a posição mudou (com a nova posição e o motivo em linguagem simples); ou a análise terminou sem mudança de posição.
+10. O paciente é notificado quando: o documento foi recebido; o médico pediu mais informações, em geral um exame ou laudo (o paciente envia pela aba Documentos, spec 001); o médico aprovou uma nova fila e a posição mudou (com a nova posição e o motivo em linguagem simples); ou a análise terminou sem mudança de posição.
 11. Se o médico rejeitar a proposta, o paciente não recebe aviso de mudança. A reavaliação da IA é interna e só gera notificação se resultar em nova fila aprovada.
 12. Tocar na notificação abre a tela correspondente.
 13. Sem conexão, o app mostra a última posição conhecida com a data e avisa que pode estar desatualizada.
