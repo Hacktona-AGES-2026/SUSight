@@ -1,4 +1,3 @@
-import * as LocalAuthentication from 'expo-local-authentication';
 import { router } from 'expo-router';
 import { Alert, StyleSheet, Text, View } from 'react-native';
 import { api } from '../../api';
@@ -12,15 +11,6 @@ import { useLoad } from '../../useLoad';
 export default function Profile() {
   const { data, loading, error, reload } = useLoad(() => Promise.all([api.getProfile(), api.getContacts()]));
   const { prefs, setPref, signOut } = useSession();
-
-  const toggleFaceId = async (on: boolean) => {
-    if (!on) return setPref('faceId', false);
-    if (!(await LocalAuthentication.hasHardwareAsync()) || !(await LocalAuthentication.isEnrolledAsync())) {
-      return Alert.alert('Face ID indisponível', 'Cadastre o Face ID nos Ajustes do celular para usar o bloqueio.');
-    }
-    const result = await LocalAuthentication.authenticateAsync({ promptMessage: 'Ativar bloqueio com Face ID' });
-    if (result.success) await setPref('faceId', true);
-  };
 
   if (!data) {
     return (
@@ -106,13 +96,6 @@ export default function Profile() {
           subtitle="Quem acessa suas informações (LGPD)"
           chevron
           onPress={() => router.push('/privacy')}
-        />
-        <Divider />
-        <Toggle
-          title="Bloqueio com Face ID"
-          subtitle="Pede o Face ID ao abrir o aplicativo."
-          value={prefs.faceId}
-          onChange={toggleFaceId}
         />
       </Card>
 

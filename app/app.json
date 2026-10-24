@@ -42,12 +42,6 @@
           "photosPermission": "O SUSight acessa suas fotos para você escolher exames e laudos."
         }
       ],
-      [
-        "expo-local-authentication",
-        {
-          "faceIDPermission": "O SUSight usa o Face ID para proteger seus dados de saúde."
-        }
-      ],
       "expo-image"
     ],
     "scheme": "susight"

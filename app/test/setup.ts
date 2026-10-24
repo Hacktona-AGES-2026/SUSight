@@ -9,12 +9,6 @@ jest.mock('expo-secure-store', () => {
   };
 });
 
-jest.mock('expo-local-authentication', () => ({
-  hasHardwareAsync: jest.fn(),
-  isEnrolledAsync: jest.fn(),
-  authenticateAsync: jest.fn(),
-}));
-
 jest.mock('expo-image-picker', () => ({
   launchCameraAsync: jest.fn(),
   launchImageLibraryAsync: jest.fn(),
@@ -26,10 +20,6 @@ jest.mock('expo-document-picker', () => ({ getDocumentAsync: jest.fn() }));
 // Defaults are set per test so `jest.restoreAllMocks()` in a suite cannot wipe them.
 beforeEach(() => {
   require('expo-secure-store').__store.clear();
-  const auth = require('expo-local-authentication');
-  auth.hasHardwareAsync.mockResolvedValue(true);
-  auth.isEnrolledAsync.mockResolvedValue(true);
-  auth.authenticateAsync.mockResolvedValue({ success: true });
   require('expo-image-picker').requestCameraPermissionsAsync.mockResolvedValue({ granted: true });
 });
 

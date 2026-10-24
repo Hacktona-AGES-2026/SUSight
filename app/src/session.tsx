@@ -1,19 +1,17 @@
-import * as LocalAuthentication from 'expo-local-authentication';
 import * as SecureStore from 'expo-secure-store';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { AppState } from 'react-native';
 
 export const IDLE_LIMIT_MS = 30 * 60_000;
 
-export type Prefs = { notifications: boolean; faceId: boolean };
-type Status = 'loading' | 'signedOut' | 'locked' | 'signedIn';
+export type Prefs = { notifications: boolean };
+type Status = 'loading' | 'signedOut' | 'signedIn';
 
 type Session = {
   status: Status;
   prefs: Prefs;
   signIn: (token: string) => Promise<void>;
   signOut: () => Promise<void>;
-  unlock: () => Promise<boolean>;
   touch: () => void;
   setPref: <K extends keyof Prefs>(key: K, value: Prefs[K]) => Promise<void>;
 };
@@ -30,20 +28,20 @@ type Stored = { token: string; lastActive: number };
 
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<Status>('loading');
-  const [prefs, setPrefs] = useState<Prefs>({ notifications: true, faceId: false });
+  const [prefs, setPrefs] = useState<Prefs>({ notifications: true });
 
   const signOut = useCallback(async () => {
     await SecureStore.deleteItemAsync('session');
     setStatus('signedOut');
   }, []);
 
-  // Restore on open: expired sessions sign out, Face ID locks until the patient authenticates.
+  // Restore on open: expired sessions sign out.
   const restore = useCallback(async () => {
     const [session, saved] = await Promise.all([read<Stored>('session'), read<Prefs>('prefs')]);
-    const p = saved ?? { notifications: true, faceId: false };
+    const p = saved ?? { notifications: true };
     setPrefs(p);
     if (!session || Date.now() - session.lastActive > IDLE_LIMIT_MS) return signOut();
-    setStatus(p.faceId ? 'locked' : 'signedIn');
+    setStatus('signedIn');
   }, [signOut]);
 
   useEffect(() => {
@@ -67,14 +65,6 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       async signIn(token) {
         await write('session', { token, lastActive: Date.now() });
         setStatus('signedIn');
-      },
-      async unlock() {
-        const result = await LocalAuthentication.authenticateAsync({
-          promptMessage: 'Desbloqueie o SUSight',
-          cancelLabel: 'Cancelar',
-        });
-        if (result.success) setStatus('signedIn');
-        return result.success;
       },
       touch() {
         read<Stored>('session').then((s) => s && write('session', { ...s, lastActive: Date.now() }));
