@@ -8,7 +8,7 @@ Status: rascunho
 Widgets e avisos dão acesso rápido ao que importa sem abrir o aplicativo. Esta spec cobre dois lados:
 
 - **Paciente (iPhone):** acompanhar a posição na fila e os exames pendentes e receber avisos na tela de bloqueio. Só iPhone no MVP.
-- **Médico (Windows):** ver quantas propostas esperam revisão e receber avisos de propostas para aprovar. O médico usa o Pulse Clinical, que fica em outro repositório (SUSight-Web), então a parte do médico aqui é a referência do comportamento e do design, e a implementação acontece lá.
+- **Médico (Windows):** ver quantas propostas esperam revisão e receber avisos de propostas para aprovar. Faz parte do mesmo SUSight, na parte do médico (Pulse Clinical).
 
 Os widgets do paciente mostram a mesma informação das telas do app (specs 001 e 002) e herdam suas regras: só a fila oficial aprovada é exibida. Nada de proposta da IA aparece para o paciente.
 
@@ -77,9 +77,9 @@ Todos os nós foram lidos só pela estrutura (nomes e textos), sem captura de te
 
 ### Médico (Windows)
 
-11. O widget "Aprovações" mostra quantas propostas de nova fila esperam revisão. O botão abre o Pulse Clinical na lista de revisões pendentes.
+11. O widget "Aprovações" mostra quantas propostas de nova fila esperam revisão. O botão abre o SUSight na lista de revisões pendentes.
 12. O médico é avisado quando: chega uma nova proposta para revisão; o paciente responde a um pedido de exame (enviou o documento); e uma fila aprovada foi aplicada, informando quantos pacientes foram avisados.
-13. Tocar na notificação ou no botão abre a revisão correspondente. O aviso nunca aprova nada sozinho: a decisão acontece só dentro do Pulse Clinical, com o registro de nome, data e hora (constituição, princípios 1 e 2).
+13. Tocar na notificação ou no botão abre a revisão correspondente. O aviso nunca aprova nada sozinho: a decisão acontece só dentro do SUSight, com o registro de nome, data e hora (constituição, princípios 1 e 2).
 14. Os avisos mostram o mínimo de dados pessoais necessários para identificar a proposta, respeitando a LGPD.
 15. O widget "Envio rápido" ("Enviar documento") do painel leva ao envio de um documento. Ver questões em aberto.
 
@@ -124,8 +124,7 @@ Todos os nós foram lidos só pela estrutura (nomes e textos), sem captura de te
 
 ### Médico
 
-- O médico envia documentos (widget "Envio rápido")? O fluxo previsto diz que o médico pode enviar exame ou laudo, mas isso não está em nenhuma spec do Pulse Clinical.
+- O médico envia documentos (widget "Envio rápido")? O fluxo previsto diz que o médico pode enviar exame ou laudo, mas isso não está em nenhuma outra spec.
 - Os avisos do médico mostram o nome completo do paciente? O Figma mostra "Marina Albuquerque" e "Rita de Cássia Lima". Alternativa: iniciais ou número do pedido.
-- Quem implementa: a spec correspondente precisa existir no SUSight-Web (issues #15 a #18).
 - Windows 11 é o único alvo no MVP? Como o app web envia avisos ao painel do Windows (precisa de aplicativo instalado)?
 - O widget "Aprovações" respeita o mesmo limite de acesso do login do médico (gov.br, CRM e código de 6 dígitos, issue #15)?
