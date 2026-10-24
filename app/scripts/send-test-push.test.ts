@@ -1,5 +1,6 @@
 import { execFileSync } from "node:child_process";
 import path from "node:path";
+import { parseNotification } from "../src/notifications/inbox";
 import { tabFromNotification } from "../src/notifications/push";
 import { extractWidgetPayload } from "../src/widgets/background-logic";
 import { parseWidgetPayload } from "../src/widgets/remote";
@@ -26,7 +27,9 @@ describe("script de push de teste", () => {
     expect(message._contentAvailable).toBe(true);
     expect(message.data.type).toBe(type);
     expect(message.data.id).toEqual(expect.any(String));
-    expect(Number.isNaN(Date.parse(message.data.sentAt))).toBe(false);
+    expect(
+      parseNotification({ ...message.data, title: message.title, body: message.body }),
+    ).not.toBeNull();
   });
 
   it("a mudança de posição traz a nova posição e o motivo em linguagem simples", () => {
