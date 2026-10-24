@@ -3,7 +3,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, type } from '../theme';
-import { Icon } from './ui';
 
 export const FOOTNOTE = 'Um apoio ao cuidado. Toda decisão sobre a sua fila é validada por um profissional de saúde.';
 
@@ -19,9 +18,7 @@ export function Splash({ children }: { children?: React.ReactNode }) {
         <View style={st.center}>
           <View style={st.mark}>
             <Image source={require('../../assets/figma/blobs.svg')} style={st.blobs} accessible={false} />
-            <View style={st.logo}>
-              <Icon name="pulse-accent" size={44} />
-            </View>
+            <Image source={require('../../assets/logo.png')} style={st.logo} accessible={false} />
           </View>
           <Text style={[type.largeTitle, st.name]} accessibilityRole="header">
             SUSight
@@ -40,14 +37,7 @@ const st = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 8 },
   mark: { width: 260, height: 260, alignItems: 'center', justifyContent: 'center', marginBottom: 12 },
   blobs: { position: 'absolute', width: 298, height: 298 },
-  logo: {
-    width: 88,
-    height: 88,
-    borderRadius: 30,
-    backgroundColor: colors.surface,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  logo: { width: 88, height: 88, borderRadius: 30 },
   name: { fontSize: 44, lineHeight: 52 },
   foot: { color: colors.textSecondary, textAlign: 'center', width: 290, marginBottom: 24 },
 });

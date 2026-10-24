@@ -46,7 +46,6 @@ function Gate() {
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#fff' } }}>
           <Stack.Protected guard={signedOut}>
             <Stack.Screen name="login" />
-            <Stack.Screen name="code" />
           </Stack.Protected>
           <Stack.Protected guard={!signedOut}>
             <Stack.Screen name="(tabs)" />
