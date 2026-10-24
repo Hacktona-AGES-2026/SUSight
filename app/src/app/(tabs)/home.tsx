@@ -3,21 +3,18 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { api, visibleNotifications } from '../../api';
 import { Ring } from '../../components/Ring';
 import {
-  Button,
   Card,
   Chip,
   Divider,
   EmptyState,
-  Event,
   Icon,
   Loading,
   Notice,
   Row,
   Screen,
   SectionTitle,
-  Shortcut,
 } from '../../components/ui';
-import { daysAgo, fullDate, longDate, shortDate, waitingTime } from '../../format';
+import { daysAgo, fullDate, longDate, waitingTime } from '../../format';
 import { useSession } from '../../session';
 import { colors, shadow, type } from '../../theme';
 import { useLoad } from '../../useLoad';
@@ -93,7 +90,7 @@ export default function Home() {
           </Card>
           <Text style={[type.note, { color: colors.textSecondary }]}>
             Um especialista indicou cirurgia e a regulação do SUS incluiu você na fila. Algo não está certo? Fale com a
-            UBS ou envie um exame ou laudo.
+            UBS.
           </Text>
 
           <SectionTitle>Situação atual</SectionTitle>
@@ -125,20 +122,6 @@ export default function Home() {
             />
           </Card>
 
-          <Shortcut
-            icon="upload"
-            title="Enviar exame ou laudo"
-            subtitle="Foto, galeria ou arquivo PDF"
-            onPress={() => router.navigate({ pathname: '/documents', params: { add: String(Date.now()) } })}
-          />
-
-          <SectionTitle>Acontecimentos recentes</SectionTitle>
-          <Card accessibilityLabel="Acontecimentos recentes">
-            {data.recent.map((e) => (
-              <Event key={e.id} title={e.title} detail={e.detail} date={shortDate(e.date)} tone={e.tone} />
-            ))}
-          </Card>
-          <Button label="Ver histórico completo" kind="soft" onPress={() => router.navigate('/history')} />
         </>
       )}
     </Screen>
