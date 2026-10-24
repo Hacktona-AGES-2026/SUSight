@@ -27,7 +27,7 @@ Esta spec também cobre a abertura do app e a navegação principal por abas (In
 **Início, topo**
 
 2. A saudação usa o nome do paciente. O sino abre as notificações e mostra um ponto quando há avisos novos.
-3. O cartão principal mostra a posição ("42ª de 118 pessoas"), a especialidade e a cidade da fila ("Ortopedia · Niterói"), um anel de progresso e a data da última atualização. O texto explica que a posição pode subir ou descer quando outros pacientes são reavaliados e que **não é uma previsão de data de cirurgia**.
+3. O cartão principal mostra a posição ("42ª de 118 pessoas"), a especialidade e a cidade da fila ("Ortopedia · Niterói"), um anel que mostra visualmente onde o paciente está em relação ao total da fila, e a data da última atualização. O texto explica que a posição pode subir ou descer quando outros pacientes são reavaliados e que **não é uma previsão de data de cirurgia**.
 4. O cartão da cirurgia mostra a situação ("Aguardando cirurgia"), o número do pedido, o procedimento e a especialidade.
 5. "Por que estou na fila" mostra quando e por quem o paciente foi encaminhado (data, UBS e profissional).
 
@@ -72,13 +72,12 @@ Esta spec também cobre a abertura do app e a navegação principal por abas (In
 - Cálculo da posição e das regras de equidade (backend, issue #6).
 - Revisão e decisão do médico (Pulse Clinical).
 - Widgets (spec 004).
-- Login do paciente.
+- Login do paciente (spec própria ainda a criar).
 
 ## Questões em aberto
 
-- A tela de notificações (42-816) ainda traz "Precisamos de uma confirmação" e "Atualização analisada", que não existem mais (sem confirmação em documentos e sem relato). O pedido de informação deve falar do exame "Pendente".
+- A tela de notificações (42-816) ainda traz "Precisamos de uma confirmação" e "Atualização analisada", que não existem mais (sem confirmação em documentos e sem relato). O pedido de informação deve falar do exame "Pendente". O médico só pede exames, não outras informações.
 - O design mostra o total da fila (118) e a posição exata. Isso é aceitável para LGPD e para a equidade, já que expõe o tamanho da lista? Confirmar com a equipe.
-- O que significa o anel de progresso: proporção da posição sobre o total ou avanço desde a entrada na fila?
 - "Motivo registrado" traz termos clínicos (por exemplo, osteoartrose). Isso vem do encaminhamento e será exibido como está?
 - Notificação por push apenas, ou também por SMS ou e-mail? Qual a frequência máxima?
 - Quais eventos entram em "Acontecimentos recentes" e há detalhe do motivo da mudança de posição para o paciente?
