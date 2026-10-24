@@ -45,7 +45,9 @@ Como os dados chegam aos widgets:
 - **Atualização periódica:** a cada 15 minutos no mínimo, quando o sistema permitir, busca `GET /me/widget` com o token guardado no Keychain ou no Keystore.
 - **Ao abrir o app.**
 
-Enquanto as telas das specs 001 a 003 e o backend não existem, o app grava os dados de demonstração do Figma ao abrir ([src/widgets/demo.ts](src/widgets/demo.ts)).
+As telas das specs 001 a 003 e os widgets usam a mesma fonte de dados do app ([src/api.ts](src/api.ts)). Enquanto as rotas do paciente não estão integradas ao backend, os dados são fictícios. A integração ([src/widgets/WidgetBridge.tsx](src/widgets/WidgetBridge.tsx)) atualiza os widgets após o login, ao trocar de tela e ao voltar ao app. Ao sair da conta, limpa os dados dos widgets. As preferências de Face ID também são aplicadas aos widgets.
+
+A entrada `index.ts` registra as tarefas dos widgets e carrega o Expo Router. Os links `pulse://inicio` e `pulse://documentos` abrem as telas Início e Documentos; o esquema `susight://` continua disponível. O token usado em segundo plano vem da mesma sessão do login, com a mesma expiração. Sem sessão válida, um push não repõe os dados apagados ao sair da conta.
 
 ### Pedidos ao SUSight-Backend
 
@@ -71,7 +73,7 @@ Com o app fechado, o widget deve mudar para a posição do push (31ª no exemplo
 
 ## Testar os widgets
 
-**iPhone:** abra o app uma vez. Na tela inicial, toque e segure, toque em "+", procure "SUSight" e adicione os widgets pequeno e médio. O pequeno abre o Início. No médio, o anel abre o Início e a lista abre Documentos.
+**iPhone:** abra o app e entre com a conta de demonstração descrita no README principal. Na tela inicial, toque e segure, toque em "+", procure "SUSight" e adicione os widgets pequeno e médio. O pequeno abre o Início. No médio, o anel abre o Início e a lista abre Documentos. Sem login, os widgets mostram o convite para abrir o app.
 
 **Android:** abra o app uma vez. Toque e segure na tela inicial, escolha "Widgets", procure "SUSight" e adicione os três.
 
@@ -88,7 +90,7 @@ Para testar num iPhone de verdade, é preciso uma conta Apple Developer e o `ios
 |---|---|
 | Widget de posição no iPhone, pequeno e médio | Manual, no simulador. A extensão é SwiftUI e não roda no Jest. |
 | Widgets do Android: largo, "Próximo exame" e "Esta semana" | `android/widgets.test.tsx` (textos, links e leitor de tela). Aparência verificada no emulador. |
-| Dados coincidem com Início e Documentos | `snapshot.test.ts` e `demo.test.ts`. Quando as telas existirem, devem usar o mesmo `buildWidgetSnapshot`. |
+| Dados coincidem com Início e Documentos | `WidgetBridge.test.tsx`, `snapshot.test.ts` e `demo.test.ts`. A integração usa os dados das mesmas rotas do app. |
 | Atualizam após mudança aprovada ou exame pedido, sem abrir o app | `background-logic.test.ts` (push e atualização periódica) e `refresh.test.ts` (os dois sistemas). Verificação de ponta a ponta com `npm run push:test` e o app fechado. |
 | Tocar abre o app na tela correta, sem ações | `links.test.ts`, `push.test.ts` e `android/widgets.test.tsx`. O toque no iPhone é verificado no simulador. |
 | Push de posição, exame em análise, exame faltando e documento recebido | `push.test.ts` (permissão, token e toque) e `send-test-push.test.ts` (payload). A entrega no aparelho depende das credenciais e do backend. |

@@ -50,6 +50,12 @@ describe("extractWidgetPayload", () => {
 });
 
 describe("updateWidgetsFromPush", () => {
+  it("não restaura dados do paciente após sair da conta", async () => {
+    const { all, refresh } = deps({ getToken: async () => null });
+    await expect(updateWidgetsFromPush({ data: { widget } }, all)).resolves.toBe(false);
+    expect(refresh).not.toHaveBeenCalled();
+  });
+
   it("atualiza os widgets com os dados do push, sem buscar na API", async () => {
     const { all, refresh, fetchWidget } = deps();
 

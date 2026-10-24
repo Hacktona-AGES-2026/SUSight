@@ -12,7 +12,8 @@
       "infoPlist": {
         "UIBackgroundModes": [
           "remote-notification"
-        ]
+        ],
+        "NSFaceIDUsageDescription": "O SUSight usa o Face ID para proteger seus dados de saúde."
       },
       "entitlements": {
         "com.apple.security.application-groups": [

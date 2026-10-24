@@ -1,22 +1,19 @@
-import * as SecureStore from "expo-secure-store";
+import * as SecureStore from 'expo-secure-store';
+import { IDLE_LIMIT_MS } from './session-policy';
 
-// Token da sessão do paciente, guardado no Keychain (iPhone) e no Keystore (Android).
-// O login (spec 005) grava; as tarefas em segundo plano leem para atualizar os widgets.
-const KEY = "session_token";
-
-// Liberado depois do primeiro desbloqueio, para as tarefas em segundo plano conseguirem ler.
-const OPTIONS: SecureStore.SecureStoreOptions = {
-  keychainAccessible: SecureStore.AFTER_FIRST_UNLOCK,
-};
-
-export function getSessionToken() {
-  return SecureStore.getItemAsync(KEY, OPTIONS);
-}
-
-export function setSessionToken(token: string) {
-  return SecureStore.setItemAsync(KEY, token, OPTIONS);
-}
-
-export function clearSessionToken() {
-  return SecureStore.deleteItemAsync(KEY, OPTIONS);
+/** A mesma sessão usada pelo login, pela restauração e pela saída da conta. */
+export async function getSessionToken(): Promise<string | null> {
+  const raw = await SecureStore.getItemAsync('session');
+  if (!raw) return null;
+  try {
+    const session = JSON.parse(raw);
+    if (
+      typeof session?.token !== 'string' || !session.token ||
+      typeof session.lastActive !== 'number' || !Number.isFinite(session.lastActive) ||
+      Date.now() - session.lastActive > IDLE_LIMIT_MS
+    ) return null;
+    return session.token;
+  } catch {
+    return null;
+  }
 }

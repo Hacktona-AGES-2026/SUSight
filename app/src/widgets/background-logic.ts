@@ -52,9 +52,12 @@ export async function updateWidgetsFromApi(deps: BackgroundDeps) {
 
 /** Dados inválidos mantêm o último widget: melhor do que mostrar uma posição errada. */
 async function applyPayload(payload: unknown, deps: BackgroundDeps) {
+  const token = await deps.getToken();
+  if (!token) return false;
   const remote = parseWidgetPayload(payload);
   if (!remote) return false;
   const input = toWidgetInput(remote, await deps.getPreferences());
+  if (await deps.getToken() !== token) return false;
   await deps.refresh(buildWidgetSnapshot(input));
   return true;
 }

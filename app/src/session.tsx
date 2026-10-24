@@ -2,8 +2,9 @@ import * as LocalAuthentication from 'expo-local-authentication';
 import * as SecureStore from 'expo-secure-store';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { AppState } from 'react-native';
+import { IDLE_LIMIT_MS } from './auth/session-policy';
 
-export const IDLE_LIMIT_MS = 30 * 60_000;
+export { IDLE_LIMIT_MS } from './auth/session-policy';
 
 export type Prefs = { notifications: boolean; faceId: boolean };
 type Status = 'loading' | 'signedOut' | 'locked' | 'signedIn';
