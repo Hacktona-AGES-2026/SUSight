@@ -13,4 +13,4 @@ Cada tarefa é pequena, verificável e vira um commit atômico. Os testes vêm a
 - [x] 7. Widget pequeno em SwiftUI, nas duas variantes de cor.
 - [x] 8. Widget médio em SwiftUI, nas duas variantes de cor.
 - [x] 9. App grava o retrato de demonstração ao abrir, até as specs 001 a 003 existirem.
-- [ ] 10. README do app: como gerar o development build e testar os widgets no simulador. Tabela de critérios de aceite e testes, com justificativa para os que não têm teste automatizado.
+- [x] 10. README do app: como gerar o development build e testar os widgets no simulador. Tabela de critérios de aceite e testes, com justificativa para os que não têm teste automatizado.
