@@ -72,7 +72,7 @@ Esta spec também cobre a abertura do app e a navegação principal por abas (In
 - Cálculo da posição e das regras de equidade (backend, issue #6).
 - Revisão e decisão do médico (Pulse Clinical).
 - Widgets (spec 004).
-- Login do paciente (spec própria ainda a criar).
+- Login do paciente (spec 005).
 
 ## Questões em aberto
 
