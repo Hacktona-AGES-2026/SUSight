@@ -2,6 +2,8 @@ import * as BackgroundTask from "expo-background-task";
 import * as Notifications from "expo-notifications";
 import * as TaskManager from "expo-task-manager";
 import { getSessionToken } from "../auth/token";
+import { appInbox } from "../notifications/app-inbox";
+import { fromBackgroundTask } from "../notifications/capture-logic";
 import {
   updateWidgetsFromApi,
   updateWidgetsFromPush,
@@ -33,6 +35,9 @@ const deps: BackgroundDeps = {
 
 TaskManager.defineTask(WIDGET_PUSH_TASK, async ({ data, error }) => {
   if (error) return;
+  // O aviso também entra na lista do sino (spec 002).
+  const item = fromBackgroundTask(data);
+  if (item) await appInbox.add([item]).catch(() => {});
   await updateWidgetsFromPush(data, deps);
 });
 
