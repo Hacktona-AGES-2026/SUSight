@@ -33,7 +33,7 @@ Os nós 42-712 e 86-2167 são só rótulos de seção.
 
 4. O topo mostra iniciais, nome e Cartão SUS mascarado (apenas os 4 últimos dígitos).
 5. "Dados básicos" mostra nascimento, telefone mascarado e município.
-6. "Notificações e acompanhamento" tem chaves para: avisos no aplicativo, pedidos de informação e acompanhar pelo WhatsApp (avisos curtos no número cadastrado).
+6. "Notificações e acompanhamento" tem uma chave para os avisos no aplicativo (documento recebido, análise concluída, prioridade validada). O aviso de exame pedido não pode ser desligado e sempre chega. Não há canal de WhatsApp.
 7. "Privacidade e contatos" tem: contatos autorizados (com resumo do primeiro contato), privacidade e dados, e a chave "Bloqueio com Face ID".
 8. "Sair da conta" encerra a sessão.
 
@@ -46,7 +46,7 @@ Os nós 42-712 e 86-2167 são só rótulos de seção.
 **Privacidade e dados**
 
 12. A tela explica como os dados são usados (organizar a fila de forma justa e manter a posição atualizada; não são vendidos nem compartilhados com empresas) e quem acessa: Regulação do SUS (valida prioridades e organiza a fila), Profissionais de saúde (revisam documentos) e Assistente de IA (só lê documentos para propor; quem decide é sempre um profissional).
-13. "Seus direitos (LGPD)" tem "Pedir uma cópia dos meus dados" (a resposta chega pelo aplicativo) e "Pedir a exclusão dos meus dados" (sair da fila é decidido com a UBS).
+13. "Seus direitos (LGPD)" tem "Pedir uma cópia dos meus dados" (a resposta chega pelo aplicativo) A exclusão da fila é tratada no Pulse Clinical (web), não neste app.
 
 **Face ID**
 
@@ -57,11 +57,11 @@ Os nós 42-712 e 86-2167 são só rótulos de seção.
 - [ ] O histórico reúne os eventos da solicitação em ordem cronológica, com título, descrição, data e ponto.
 - [ ] Histórico vazio mostra um estado explicativo.
 - [ ] Cartão SUS e telefones aparecem mascarados.
-- [ ] As chaves de avisos no aplicativo, pedidos de informação e WhatsApp funcionam e o app respeita a escolha.
+- [ ] A chave de avisos no aplicativo funciona e o app respeita a escolha, exceto o aviso de exame pedido, que sempre chega.
 - [ ] Contatos autorizados podem ser adicionados e removidos, e o contato recebe SMS informando a autorização.
 - [ ] Contatos nunca recebem exames, laudos nem conteúdo dos documentos.
 - [ ] A tela de privacidade lista quem acessa os dados, incluindo o papel do assistente de IA.
-- [ ] Pedido de cópia e de exclusão dos dados estão disponíveis.
+- [ ] O pedido de cópia dos dados está disponível.
 - [ ] O Face ID pode ser ligado e desligado, e é exigido ao abrir quando ligado.
 - [ ] "Sair da conta" encerra a sessão.
 - [ ] Textos em português do Brasil e linguagem simples.
@@ -69,7 +69,8 @@ Os nós 42-712 e 86-2167 são só rótulos de seção.
 ## Fora do escopo
 
 - Editar ou apagar documentos já enviados.
-- Cadastro inicial e login do paciente, se ainda não definidos em outra spec.
+- Exclusão da fila e dos dados do paciente: feita no Pulse Clinical (web), outro repositório.
+- Login do paciente: existe no app, mas precisa de spec própria (ainda não há issue).
 - Histórico de decisões internas do médico (auditoria no backend, issue #19).
 - Relatos de sintomas pelo paciente: o app não tem esse recurso.
 
@@ -80,11 +81,8 @@ Os nós 42-712 e 86-2167 são só rótulos de seção.
   - Histórico (42-713): "Pedido de informação adicional · confirme se a imagem está legível" pressupõe confirmação em documento, que não existe.
   - Notificações (42-816): "Precisamos de uma confirmação" e "Atualização analisada" têm o mesmo problema.
   - Contatos (86-1960): "não veem seus exames, laudos nem relatos" cita relatos.
-  - Para o paciente, o pedido de informação deve ser um exame "Pendente" (spec 001).
-- A chave "Pedidos de informação" permite ao paciente desligar os avisos de exame pedido. Isso pode atrasar a análise dele. Deve existir? Se existir, o item "Pendente" continua visível em Documentos?
-- O WhatsApp é canal oficial no MVP ou só SMS para contatos?
+  - Para o paciente, o pedido de informação deve ser um exame "Pendente" (spec 001), e as chaves "Pedidos de informação" e "Acompanhar pelo WhatsApp" do Perfil (42-887) devem sair, assim como "Pedir a exclusão dos meus dados" na tela de privacidade (86-1882).
 - Dados básicos (nascimento, telefone, município) são só leitura? Vêm do cadastro da regulação?
 - O paciente vê o histórico completo de posições ou só o das mudanças aprovadas?
 - Como o consentimento do contato é registrado, já que ele só recebe um SMS?
-- Como o pedido de exclusão convive com o registro auditável das decisões? A tela diz que sair da fila é decidido com a UBS.
-- Há login por gov.br ou outra forma para o paciente? Precisa de spec própria?
+- O login por gov.br ou outra forma ainda não foi definido e precisa de spec própria.
