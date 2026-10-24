@@ -13,22 +13,24 @@ export type BackgroundDeps = {
 };
 
 /**
- * Encontra o campo `widget` do push nos formatos de cada sistema:
+ * Lugares onde o `data` do push pode estar, em cada sistema:
  * Android (`data.dataString`), iPhone (`data` ou `data.body`) e toque no aviso.
  */
-export function extractWidgetPayload(taskData: unknown): unknown {
+export function pushDataCandidates(taskData: unknown): Record<string, unknown>[] {
   const root = asObject(taskData);
   const data = asObject(root?.data);
-  const candidates = [
+  return [
     asObject(parseJson(data?.dataString)),
     asObject(data?.body),
     data,
     asObject(asObject(asObject(asObject(root?.notification)?.request)?.content)?.data),
-  ];
-  for (const candidate of candidates) {
-    if (candidate?.widget !== undefined) return candidate.widget;
-  }
-  return null;
+  ].filter((candidate) => candidate !== null);
+}
+
+/** Encontra o campo `widget` do push em qualquer um dos formatos. */
+export function extractWidgetPayload(taskData: unknown): unknown {
+  const found = pushDataCandidates(taskData).find((candidate) => candidate.widget !== undefined);
+  return found ? found.widget : null;
 }
 
 /** Atualiza com os dados do push; sem dados válidos no push, busca na API. */
@@ -62,7 +64,7 @@ async function applyPayload(payload: unknown, deps: BackgroundDeps) {
   return true;
 }
 
-function asObject(value: unknown): Record<string, unknown> | null {
+export function asObject(value: unknown): Record<string, unknown> | null {
   return typeof value === "object" && value !== null ? (value as Record<string, unknown>) : null;
 }
 
