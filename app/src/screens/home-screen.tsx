@@ -1,10 +1,11 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { NotificationBell } from "../ui/notification-bell";
 import { TAB_BAR_SPACE } from "../ui/tab-bar";
 import { colors, text } from "../ui/theme";
 
 /** Topo do Início (tela 41-21). Os cartões de posição e situação vêm no próximo plano da spec 002. */
-export function HomeScreen() {
+export function HomeScreen({ unread, onOpenNotifications }: { unread: number; onOpenNotifications(): void }) {
   const insets = useSafeAreaInsets();
   return (
     <ScrollView
@@ -18,6 +19,7 @@ export function HomeScreen() {
             Olá
           </Text>
         </View>
+        <NotificationBell unread={unread} onPress={onOpenNotifications} />
       </View>
     </ScrollView>
   );

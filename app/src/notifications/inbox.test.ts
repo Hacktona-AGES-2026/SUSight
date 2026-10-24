@@ -1,6 +1,7 @@
 import {
   INBOX_LIMIT,
   formatShortDate,
+  formatSpokenDate,
   markRead,
   markerFor,
   mergeInbox,
@@ -122,5 +123,12 @@ describe("formatShortDate", () => {
     expect(formatShortDate("2026-10-20T12:00:00.000Z")).toBe("20 out");
     expect(formatShortDate("2026-09-09T12:00:00.000Z")).toBe("9 set");
     expect(formatShortDate("2026-05-01T01:00:00.000Z")).toBe("30 abr");
+  });
+});
+
+describe("formatSpokenDate", () => {
+  it("escreve o mês por extenso para o leitor de tela", () => {
+    expect(formatSpokenDate("2026-10-20T12:00:00.000Z")).toBe("20 de outubro");
+    expect(formatSpokenDate("2026-03-01T12:00:00.000Z")).toBe("1 de março");
   });
 });

@@ -81,6 +81,17 @@ export function formatShortDate(iso: string): string {
   return `${local.getUTCDate()} ${MONTHS[local.getUTCMonth()]}`;
 }
 
+const SPOKEN_MONTHS = [
+  "janeiro", "fevereiro", "março", "abril", "maio", "junho",
+  "julho", "agosto", "setembro", "outubro", "novembro", "dezembro",
+];
+
+/** "20 de outubro", para o VoiceOver e o TalkBack. */
+export function formatSpokenDate(iso: string): string {
+  const local = new Date(Date.parse(iso) + BRASILIA_OFFSET_MS);
+  return `${local.getUTCDate()} de ${SPOKEN_MONTHS[local.getUTCMonth()]}`;
+}
+
 function isText(value: unknown): value is string {
   return typeof value === "string" && value.trim() !== "";
 }

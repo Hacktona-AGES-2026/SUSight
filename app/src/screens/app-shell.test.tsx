@@ -38,4 +38,33 @@ describe("navegação do app", () => {
 
     expect(screen.getByRole("tab", { name: "Documentos" })).toBeSelected();
   });
+
+  it("o sino do Início mostra os avisos novos e abre as notificações", async () => {
+    await renderShell();
+
+    await fireEvent.press(screen.getByRole("button", { name: "Notificações, 1 nova" }));
+
+    expect(screen.getByRole("header", { name: "Notificações" })).toBeOnTheScreen();
+  });
+
+  it("tocar num aviso marca como lido e abre a tela dele", async () => {
+    const onMarkRead = jest.fn();
+    await renderShell({ onMarkRead });
+
+    await fireEvent.press(screen.getByRole("button", { name: "Notificações, 1 nova" }));
+    await fireEvent.press(screen.getByText("Falta um exame"));
+
+    expect(onMarkRead).toHaveBeenCalledWith("a");
+    expect(screen.getByRole("tab", { name: "Documentos" })).toBeSelected();
+  });
+
+  it("trocar de aba fecha as notificações", async () => {
+    await renderShell();
+
+    await fireEvent.press(screen.getByRole("button", { name: "Notificações, 1 nova" }));
+    await fireEvent.press(screen.getByRole("tab", { name: "Perfil" }));
+
+    expect(screen.queryByRole("header", { name: "Notificações" })).toBeNull();
+    expect(screen.getByRole("header", { name: "Perfil" })).toBeOnTheScreen();
+  });
 });
