@@ -25,7 +25,8 @@ A posição sobe conforme o quanto o paciente está sendo prejudicado por espera
 - questões socioeconômicas;
 - comorbidades;
 - tempo de espera;
-- deterioração durante a espera.
+- deterioração durante a espera;
+- CID (classificação da doença).
 
 Também entram a prioridade validada pela regulação (Baixa, Moderada, Alta) e regras de equidade: limite de elevação por reavaliação e não passar à frente de quem tem prioridade maior e mais espera. Os pesos exatos ainda serão fechados pela equipe.
 
