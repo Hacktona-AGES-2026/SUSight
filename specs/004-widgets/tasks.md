@@ -7,7 +7,7 @@ Cada tarefa é pequena, verificável e vira um commit atômico. Os testes vêm a
 - [x] 1. Development build: identidade do app, `scheme` `pulse` e perfis do EAS.
 - [x] 2. Jest com `jest-expo` e scripts `typecheck` e `test`.
 - [x] 3. Retrato do widget: testes e `buildWidgetSnapshot` (posição, anel, exames, "subiu X posições", privacidade, variante e data).
-- [ ] 4. Links: testes e `tabFromUrl` para `pulse://inicio` e `pulse://documentos`.
+- [x] 4. Links: testes e `tabFromUrl` para `pulse://inicio` e `pulse://documentos`.
 - [ ] 5. Gravação: testes e `syncWidgets` e `clearWidgets` com armazenamento injetado.
 - [ ] 6. Extensão: `@bacons/apple-targets`, App Group e leitura do retrato em Swift.
 - [ ] 7. Widget pequeno em SwiftUI, nas duas variantes de cor.
