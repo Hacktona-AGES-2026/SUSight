@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "br.ages.susight",
+      "bundleIdentifier": "com.hacktonaages2026.pulse",
       "infoPlist": {
         "NSFaceIDUsageDescription": "O SUSight usa o Face ID para proteger seus dados de saúde."
       }
@@ -21,7 +21,7 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "br.ages.susight"
+      "package": "com.hacktonaages2026.pulse"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -50,6 +50,9 @@
       ],
       "expo-image"
     ],
-    "scheme": "susight"
+    "scheme": [
+      "susight",
+      "pulse"
+    ]
   }
 }
