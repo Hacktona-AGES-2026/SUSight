@@ -15,10 +15,10 @@ Ainda não há telas de Histórico nem de Perfil. Só existem as duas abas na ba
 
 **Histórico**
 
-1. O histórico lista, em ordem cronológica, laudos e exames enviados (spec 001), atualizações de situação (spec 003) e mudanças de posição aprovadas (spec 002).
-2. Cada item mostra tipo, data e situação: "em análise", "revisado", "informação solicitada" ou "posição atualizada".
-3. Tocar em um item abre o detalhe: o documento enviado, o relato ou o motivo da mudança de posição em linguagem simples.
-4. O paciente pode filtrar por tipo (exames, laudos, relatos, posição).
+1. O histórico lista, em ordem cronológica, laudos e exames enviados (spec 001) e mudanças de posição aprovadas (spec 002).
+2. Cada item mostra tipo, data e situação: "em análise", "informação solicitada" ou "posição atualizada".
+3. Tocar em um item abre o detalhe: o documento enviado ou o motivo da mudança de posição em linguagem simples.
+4. O paciente pode filtrar por tipo (exames, laudos, posição).
 
 **Perfil**
 
@@ -34,7 +34,7 @@ Ainda não há telas de Histórico nem de Perfil. Só existem as duas abas na ba
 
 ## Critérios de aceite
 
-- [ ] O histórico reúne exames, laudos, relatos e mudanças de posição em ordem cronológica.
+- [ ] O histórico reúne exames, laudos e mudanças de posição em ordem cronológica.
 - [ ] Cada item mostra tipo, data e situação, e abre o detalhe.
 - [ ] O filtro por tipo funciona.
 - [ ] CNS e dados sensíveis aparecem mascarados por padrão.

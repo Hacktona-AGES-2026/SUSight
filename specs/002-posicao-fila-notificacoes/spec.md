@@ -34,8 +34,8 @@ Esta spec também cobre a abertura do app e a navegação principal por abas (In
 
 6. "Motivo registrado" mostra o motivo constante do encaminhamento, com a orientação de procurar a UBS ou enviar uma atualização se algo não estiver certo. O app apenas exibe o que está registrado e não faz diagnóstico.
 7. "Situação atual" lista: prioridade validada pela regulação (Baixa, Moderada ou Alta) com a data de validação; o último passo e se está pendente; tempo de espera acumulado; e a última atualização clínica, com há quantos dias.
-8. Dois atalhos de ação: "Enviar exame ou laudo" (abre o fluxo da spec 001) e "Atualizar minha situação" (abre o fluxo da spec 003, com a nota "cerca de 2 minutos, não é preciso ter exames novos").
-9. "Acontecimentos recentes" mostra os últimos eventos (documento recebido, pedido de informação, prioridade validada, reavaliação concluída) com data. "Ver histórico completo" abre a aba Histórico (spec 004).
+8. Um atalho de ação: "Enviar exame ou laudo" (abre o fluxo da spec 001). Não há campo para o paciente relatar dor ou mobilidade: a análise considera só os exames e laudos enviados.
+9. "Acontecimentos recentes" mostra os últimos eventos (documento recebido, pedido de informação, prioridade validada, reavaliação concluída) com data. "Ver histórico completo" abre a aba Histórico (spec 003).
 
 **Notificações**
 
@@ -55,7 +55,7 @@ Esta spec também cobre a abertura do app e a navegação principal por abas (In
 - [ ] O texto do cartão da posição deixa claro que não é previsão de data de cirurgia.
 - [ ] A posição exibida corresponde à fila oficial aprovada e nunca a uma proposta pendente.
 - [ ] "Situação atual" mostra prioridade com data, último passo, tempo de espera e última atualização clínica.
-- [ ] Os atalhos levam aos fluxos das specs 001 e 003.
+- [ ] O atalho leva ao fluxo da spec 001 e o app não oferece relato de dor ou mobilidade.
 - [ ] "Acontecimentos recentes" lista eventos em ordem cronológica e "Ver histórico completo" abre o histórico.
 - [ ] As quatro abas funcionam e a aba ativa é destacada.
 - [ ] Aprovação do médico que altera a posição gera notificação com nova posição e motivo em linguagem simples.
@@ -64,13 +64,13 @@ Esta spec também cobre a abertura do app e a navegação principal por abas (In
 - [ ] Sem conexão, o app mostra a última posição conhecida com aviso de desatualização.
 - [ ] O sino mostra o ponto de aviso novo e abre as notificações.
 - [ ] Textos em português do Brasil, sem alarme e sem prometer data de cirurgia.
-- [ ] O paciente pode desativar tipos de notificação (spec 004).
+- [ ] O paciente pode desativar tipos de notificação (spec 003).
 
 ## Fora do escopo
 
 - Cálculo da posição e das regras de equidade (backend, issue #6).
 - Revisão e decisão do médico (Pulse Clinical).
-- Widgets (spec 005).
+- Widgets (spec 004).
 - Login do paciente.
 
 ## Questões em aberto

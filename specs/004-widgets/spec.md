@@ -18,7 +18,7 @@ Ainda não há design dos widgets. Eles devem reaproveitar a informação do car
 3. Tocar no widget abre o app na tela correspondente.
 4. Os widgets se atualizam quando a posição ou o próximo passo mudam, sem o paciente abrir o app.
 5. Sem dados ou sem conexão, o widget mostra a última informação conhecida com a data, ou orienta a abrir o app.
-6. Com Face ID ativado (spec 004), o widget mostra uma versão sem a posição exata quando o aparelho está bloqueado, para proteger a privacidade.
+6. Com Face ID ativado (spec 003), o widget mostra uma versão sem a posição exata quando o aparelho está bloqueado, para proteger a privacidade.
 7. Os widgets seguem o tamanho de texto do sistema e têm contraste adequado.
 
 ## Critérios de aceite
@@ -34,7 +34,7 @@ Ainda não há design dos widgets. Eles devem reaproveitar a informação do car
 
 ## Fora do escopo
 
-- Widgets interativos com ações (enviar documento, atualizar situação).
+- Widgets interativos com ações (enviar documento).
 - Widgets para o médico.
 - Notificações (spec 002).
 
