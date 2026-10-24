@@ -29,7 +29,7 @@ Cada tarefa é pequena, verificável e vira um commit atômico. Os testes vêm a
 - [x] 4. Captura: aviso com o app aberto, toque, avisos na central ao abrir e tarefa em segundo plano entram na caixa.
 - [x] 5. Caixa vinda da API (`GET /me/notifications`) e demonstração sem backend.
 - [x] 6. Tokens do Figma, ícones e `react-native-svg`.
-- [ ] 7. Barra de abas e `AppShell`: testes, quatro abas, aba ativa destacada e aviso ou widget abrindo a aba certa.
+- [x] 7. Barra de abas e `AppShell`: testes, quatro abas, aba ativa destacada e aviso ou widget abrindo a aba certa.
 - [ ] 8. Sino no Início: testes, ponto de novo e abertura das notificações.
 - [ ] 9. Tela de notificações: testes, lista com ponto, título, texto e data, toque marcando como lido e abrindo a tela do aviso, lista vazia e leitor de tela.
 - [ ] 10. README do app: como testar as notificações e tabela de critérios e testes.
