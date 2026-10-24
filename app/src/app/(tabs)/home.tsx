@@ -125,7 +125,7 @@ export default function Home() {
             icon="upload"
             title="Enviar exame ou laudo"
             subtitle="Foto, galeria ou arquivo PDF"
-            onPress={() => router.navigate({ pathname: '/documents', params: { add: '1' } })}
+            onPress={() => router.navigate({ pathname: '/documents', params: { add: String(Date.now()) } })}
           />
 
           <SectionTitle>Acontecimentos recentes</SectionTitle>

@@ -157,7 +157,7 @@ export function Divider() {
   return <View style={s.divider} />;
 }
 
-type ChipTone = 'neutral' | 'accent' | 'strong';
+type ChipTone = 'neutral' | 'accent' | 'strong' | 'info';
 
 export function Chip({ label, tone = 'accent' }: { label: string; tone?: ChipTone }) {
   return (
@@ -171,8 +171,14 @@ const chipBg = {
   neutral: { backgroundColor: colors.chip },
   accent: { backgroundColor: colors.accentSoft },
   strong: { backgroundColor: colors.surface },
+  info: { backgroundColor: colors.chip },
 };
-const chipInk = { neutral: colors.textMuted, accent: colors.accentInk, strong: colors.accentInkStrong };
+const chipInk = {
+  neutral: colors.textMuted,
+  accent: colors.accentInk,
+  strong: colors.accentInkStrong,
+  info: colors.accentInk,
+};
 
 /** "Linha de lista": optional icon block, two lines of text, optional chip and chevron. */
 export function Row({
