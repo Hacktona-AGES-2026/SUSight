@@ -5,5 +5,6 @@ import WidgetKit
 struct PulseWidgets: WidgetBundle {
   var body: some Widget {
     SmallPositionWidget()
+    MediumPositionWidget()
   }
 }
