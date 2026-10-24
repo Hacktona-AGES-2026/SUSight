@@ -7,8 +7,8 @@ Status: rascunho
 
 Widgets e avisos dão acesso rápido ao que importa sem abrir o aplicativo. Esta spec cobre dois lados:
 
-- **Paciente (iPhone):** acompanhar a posição na fila e os exames pendentes e receber avisos na tela de bloqueio. Só iPhone no MVP.
-- **Médico (Windows):** ver quantas propostas esperam revisão e receber avisos de propostas para aprovar. O médico usa o Pulse Clinical, que fica em outro repositório (SUSight-Web), então a parte do médico aqui é a referência do comportamento e do design, e a implementação acontece lá.
+- **Paciente (iPhone e Android):** acompanhar a posição na fila e os exames pendentes e receber avisos na tela de bloqueio, sem precisar abrir o app.
+- **Médico (Windows):** ver quantas propostas esperam revisão e receber avisos de propostas para aprovar. O médico usa o SUSight Clínica, que fica em outro repositório (SUSight-Web), então a parte do médico aqui é a referência do comportamento e do design, e a implementação acontece lá (SUSight-Web, spec 010).
 
 Os widgets do paciente mostram a mesma informação das telas do app (specs 001 e 002) e herdam suas regras: só a fila oficial aprovada é exibida. Nada de proposta da IA aparece para o paciente.
 
@@ -16,7 +16,7 @@ Os widgets do paciente mostram a mesma informação das telas do app (specs 001 
 
 ### Paciente
 
-Escopo do MVP: as telas iOS. As telas Android ficam mapeadas para o futuro. Base: `https://www.figma.com/design/iy1iFYNgXDrqylPa0JdGrr/Hackathona-2026?node-id=<nó>&m=dev`.
+Escopo do MVP: as telas iOS e Android. Base: `https://www.figma.com/design/iy1iFYNgXDrqylPa0JdGrr/Hackathona-2026?node-id=<nó>&m=dev`.
 
 **iOS (seção 96-2)**
 
@@ -26,14 +26,14 @@ Escopo do MVP: as telas iOS. As telas Android ficam mapeadas para o futuro. Base
 | Widget médio | 101-343 | Anel com a posição, lista de exames com situação (Pendente, Em análise, Enviado) e "Subiu 11 posições este mês" |
 | Tela de bloqueio | 101-583 | Três notificações recolhidas do app |
 
-**Android (seção 97-85), fora do MVP**
+**Android (seção 97-85)**
 
 | Tela | Nó | O que mostra |
 |---|---|---|
 | Tela inicial | 102-4561 | Widget largo (anel, posição e exames com situação) e dois widgets pequenos: "Próximo exame" ("Enviar até sexta") e "Esta semana" ("↑ 3 posições") |
 | Notificações | 102-4610 | "Sua posição mudou", "Analisando seu exame" (com indicador de progresso), "Falta um exame" e "Documento recebido" |
 
-**Variante com cores invertidas, fundo rosa (opção 106-675), iOS no MVP**
+**Variante com cores invertidas, fundo rosa (opção 106-675)**
 
 | Tela | Nó |
 |---|---|
@@ -64,16 +64,16 @@ Todos os nós foram lidos só pela estrutura (nomes e textos), sem captura de te
 
 ### Paciente (iPhone)
 
-1. O paciente adiciona o widget de posição na fila no iPhone. Ele mostra a posição atual em um anel e, conforme o tamanho, a quantidade ou a lista de exames pendentes, e o quanto a posição subiu no período.
-2. Os widgets e avisos do Android não fazem parte do MVP.
+1. O paciente adiciona o widget de posição na fila no iPhone ou no Android. Ele mostra a posição atual em um anel e, conforme o tamanho, a quantidade ou a lista de exames pendentes, e o quanto a posição subiu no período.
+2. No Android, além do widget largo com o anel e os exames, há dois widgets pequenos: "Próximo exame" (o exame pendente com o prazo, ex.: "Ressonância · Enviar até sexta") e "Esta semana" (ex.: "↑ 3 posições"). Os widgets são nativos de cada sistema.
 3. Os widgets são só de visualização rápida. Tocar neles apenas abre o app: no Início (posição) ou na aba Documentos (exames).
-4. Os widgets se atualizam quando a posição muda ou quando um exame é pedido, recebido ou entra em análise, sem o paciente abrir o app.
+4. Os widgets se atualizam quando a posição muda ou quando um exame é pedido, recebido ou entra em análise, sem o paciente abrir o app. A atualização chega por push notification e, como reserva, o sistema atualiza os widgets de tempos em tempos em segundo plano.
 5. Os exames na lista usam as situações da spec 001 (Pendente, Recebido, Em análise).
-6. Avisos na tela de bloqueio e na central de notificações: posição mudou (com a nova posição), exame em análise, falta um exame (com o nome do exame) e documento recebido. São as mesmas notificações da spec 002 e respeitam a chave de avisos da spec 003. O aviso de exame pedido sempre chega.
+6. Avisos por push notification na tela de bloqueio e na central de notificações, no iPhone e no Android: posição mudou (com a nova posição), exame em análise, falta um exame (com o nome do exame) e documento recebido. No Android, "Analisando seu exame" mostra um indicador de progresso. São as mesmas notificações da spec 002 e respeitam a chave de avisos da spec 003. O aviso de exame pedido sempre chega.
 7. Variação de posição ("subiu X posições") só é mostrada quando a posição de fato subiu. Quando desce ou não muda, o widget mostra só a posição atual, sem alarme.
 8. Sem dados ou sem conexão, o widget mostra a última informação conhecida com a data, ou orienta a abrir o app.
 9. Com Face ID ativado (spec 003), o widget e as notificações mostram uma versão sem a posição exata quando o aparelho está bloqueado.
-10. Os widgets seguem o tamanho de texto do sistema e têm contraste adequado, nas duas variantes de cor.
+10. Acessibilidade: os widgets seguem o tamanho de texto do sistema (Dynamic Type no iPhone, tamanho da fonte no Android) e têm contraste adequado nas duas variantes de cor. Com VoiceOver (iPhone) ou TalkBack (Android), cada widget é lido como uma frase completa (ex.: "Sua posição na fila: 42ª. 1 exame pendente. Subiu 11 posições este mês."), sem ler elementos decorativos como o anel ou os marcadores.
 
 ### Médico (Windows)
 
@@ -88,14 +88,16 @@ Todos os nós foram lidos só pela estrutura (nomes e textos), sem captura de te
 ### Paciente
 
 - [ ] Existe widget de posição na fila no iPhone, nos tamanhos pequeno e médio.
+- [ ] Existem no Android o widget largo e os widgets "Próximo exame" e "Esta semana".
 - [ ] Os dados exibidos coincidem com as telas de Início e Documentos do app.
-- [ ] Os widgets atualizam após mudança aprovada ou novo exame pedido, sem abrir o app.
+- [ ] Os widgets atualizam após mudança aprovada ou novo exame pedido, sem abrir o app, no iPhone e no Android.
 - [ ] Tocar abre o app na tela correta e o widget não executa ações.
-- [ ] As notificações no iPhone de posição, exame em análise, exame faltando e documento recebido chegam ao aparelho.
+- [ ] As push notifications de posição, exame em análise, exame faltando e documento recebido chegam ao iPhone e ao Android.
 - [ ] Sem conexão, os widgets mostram a última informação com data.
 - [ ] "Subiu X posições" só aparece quando a posição subiu.
 - [ ] Com o aparelho bloqueado e Face ID ativo, a posição exata não é exibida.
-- [ ] Respeitam tamanho de texto do sistema, alvos de toque de 44 pt e contraste (issue #21), nas duas variantes de cor.
+- [ ] Respeitam tamanho de texto do sistema (Dynamic Type e fonte do Android), alvos de toque de 44 pt e contraste (issue #21), nas duas variantes de cor.
+- [ ] Com VoiceOver e TalkBack, cada widget é lido como uma frase completa, sem elementos decorativos.
 - [ ] Textos em português do Brasil, sem alarme e sem prometer data de cirurgia.
 
 ### Médico
@@ -113,7 +115,6 @@ Os testes vêm antes do código. Cada critério de aceite acima vira pelo menos 
 
 - Widgets interativos com ações (enviar documento).
 - Widgets interativos do médico: aprovar ou rejeitar direto do widget.
-- Widgets e avisos do Android (telas mapeadas, para depois).
 - Widgets do paciente no Windows e do médico no iPhone ou Android.
 
 ## Questões em aberto
