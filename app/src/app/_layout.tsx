@@ -51,6 +51,10 @@ function Gate() {
             <Stack.Screen name="(tabs)" />
             <Stack.Screen name="notifications" />
             <Stack.Screen name="new-document" options={{ presentation: 'modal' }} />
+            <Stack.Screen name="contacts/index" />
+            <Stack.Screen name="contacts/new" options={{ presentation: 'modal' }} />
+            <Stack.Screen name="contacts/[id]" />
+            <Stack.Screen name="privacy" />
           </Stack.Protected>
         </Stack>
       </View>

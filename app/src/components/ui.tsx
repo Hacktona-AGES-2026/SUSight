@@ -7,6 +7,7 @@ import {
   RefreshControl,
   ScrollView,
   StyleSheet,
+  Switch,
   Text,
   TextInput,
   TextInputProps,
@@ -510,4 +511,73 @@ export const s = StyleSheet.create({
     paddingVertical: 14,
     minHeight: 52,
   },
+});
+
+/** "Ajuste": setting with a switch. */
+export function Toggle({
+  title,
+  subtitle,
+  value,
+  onChange,
+}: {
+  title: string;
+  subtitle: string;
+  value: boolean;
+  onChange: (v: boolean) => void;
+}) {
+  return (
+    <View style={toggle.row}>
+      <View style={{ flex: 1, gap: 2 }}>
+        <Text style={type.body}>{title}</Text>
+        <Text style={[type.note, { color: colors.textSecondary }]}>{subtitle}</Text>
+      </View>
+      <Switch
+        value={value}
+        onValueChange={onChange}
+        accessibilityLabel={`${title}. ${subtitle}`}
+        trackColor={{ true: colors.accentMedium, false: colors.divider }}
+        thumbColor={colors.surface}
+        ios_backgroundColor={colors.divider}
+      />
+    </View>
+  );
+}
+
+/** "Opção de escolha": radio option. */
+export function RadioOption({ label, selected, onPress }: { label: string; selected: boolean; onPress: () => void }) {
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="radio"
+      accessibilityState={{ checked: selected }}
+      accessibilityLabel={label}
+      style={[toggle.option, selected ? { backgroundColor: colors.accentSoft } : s.card]}
+    >
+      <View style={[toggle.radio, selected && toggle.radioOn]}>{selected && <View style={toggle.radioDot} />}</View>
+      <Text style={[type.body, { flex: 1 }]}>{label}</Text>
+    </Pressable>
+  );
+}
+
+const toggle = StyleSheet.create({
+  row: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingVertical: 14 },
+  option: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    borderRadius: 20,
+  },
+  radio: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderColor: colors.textSecondary,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  radioOn: { backgroundColor: colors.accentInk, borderColor: colors.accentInk },
+  radioDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.surface },
 });
