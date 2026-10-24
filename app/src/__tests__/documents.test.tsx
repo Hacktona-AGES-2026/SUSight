@@ -30,8 +30,8 @@ it('lista documentos do mais recente ao mais antigo com tipo, data e situação'
   expect(rows).toEqual([
     'Risco cirúrgico. Exame · 22 out. Pendente',
     'Eletrocardiograma pré-operatório. Exame · 21 out. Recebido',
-    'Raio-X do joelho direito. Exame · 20 out. Em análise',
-    'Ressonância do joelho direito. Laudo · 22 ago. Em análise',
+    'Raio-X do joelho direito. Exame · 20 out. Recebido',
+    'Ressonância do joelho direito. Laudo · 22 ago. Recebido',
   ]);
 });
 

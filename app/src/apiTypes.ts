@@ -2,7 +2,7 @@ import type { PickedFile } from './format';
 
 export type Priority = 'Baixa' | 'Moderada' | 'Alta';
 export type DocType = 'Exame' | 'Laudo' | 'Relatório' | 'Outro';
-export type DocStatus = 'pending' | 'received' | 'analyzing';
+export type DocStatus = 'pending' | 'received';
 
 export type Doc = { id: string; name: string; type: DocType; date: string; status: DocStatus };
 

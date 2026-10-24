@@ -55,8 +55,8 @@ const NOTICE_KINDS: Record<string, NotificationKind> = {
 const DOC_STATUS: Record<string, DocStatus> = {
   pendente: 'pending',
   recebido: 'received',
-  em_analise: 'analyzing',
-  atendido: 'analyzing',
+  em_analise: 'received',
+  atendido: 'received',
 };
 
 const digits = (text: string) => text.replace(/\D/g, '');

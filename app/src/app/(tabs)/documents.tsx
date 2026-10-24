@@ -11,7 +11,6 @@ import { useLoad } from '../../useLoad';
 const STATUS: Record<DocStatus, { label: string; tone: 'neutral' | 'accent' | 'strong' }> = {
   pending: { label: 'Pendente', tone: 'strong' },
   received: { label: 'Recebido', tone: 'neutral' },
-  analyzing: { label: 'Em análise', tone: 'accent' },
 };
 
 /** "2.1 Documentos" (41-252), "2.4" after upload (41-564) and the empty state (92-2225). */
