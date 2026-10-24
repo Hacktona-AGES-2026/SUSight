@@ -70,7 +70,7 @@ Os nós 42-712 e 86-2167 são só rótulos de seção.
 
 - Editar ou apagar documentos já enviados.
 - Exclusão da fila e dos dados do paciente: feita no Pulse Clinical (web), outro repositório.
-- Login do paciente: existe no app, mas precisa de spec própria (ainda não há issue).
+- Login do paciente (spec 005).
 - Histórico de decisões internas do médico (auditoria no backend, issue #19).
 - Relatos de sintomas pelo paciente: o app não tem esse recurso.
 
@@ -85,4 +85,3 @@ Os nós 42-712 e 86-2167 são só rótulos de seção.
 - Dados básicos (nascimento, telefone, município) são só leitura? Vêm do cadastro da regulação?
 - O paciente vê o histórico completo de posições ou só o das mudanças aprovadas?
 - Como o consentimento do contato é registrado, já que ele só recebe um SMS?
-- O login por gov.br ou outra forma ainda não foi definido e precisa de spec própria.
