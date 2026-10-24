@@ -284,6 +284,8 @@ export function createRealApi(baseUrl: string, fetchImpl: typeof fetch = fetch):
         throw new ApiError(typeof detail?.detail === 'string' ? detail.detail : 'Não foi possível enviar o documento.');
       }
       const result = (await response.json()) as { documento_id: string };
+      // Reading the document takes a while (and needs the extractor); do not make the patient wait for it.
+      send('POST', `/documentos/${result.documento_id}/extracao`).catch(() => {});
       const doc: Doc = { id: result.documento_id, name: file.name, type, date: daysBefore(0), status: 'received' };
       if (!requestedId) uploaded.push(doc);
       return doc;
