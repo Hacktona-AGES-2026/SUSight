@@ -37,7 +37,7 @@ const BY_CID: Record<string, { procedure: string; specialty: string }> = {
 };
 const PRIORITY: Record<string, Priority> = { Alta: 'Alta', Moderada: 'Moderada', Média: 'Moderada', Baixa: 'Baixa' };
 const EVENT_TITLES: Record<string, string> = {
-  entrada_na_fila: 'Entrada na fila de cirurgia eletiva',
+  entrada_na_fila: 'Entrada na fila de cirurgia',
   documento_recebido: 'Documento enviado',
   posicao_alterada: 'Sua posição mudou',
   informacao_solicitada: 'Pedido de exame',
@@ -202,7 +202,7 @@ export function createRealApi(baseUrl: string, fetchImpl: typeof fetch = fetch):
         request: {
           number: row.solicitacao_id,
           procedure: known?.procedure ?? `Cirurgia (CID ${row.cid})`,
-          detail: known?.specialty ?? 'Cirurgia eletiva',
+          detail: known?.specialty ?? 'Cirurgia',
           specialty: known?.specialty ?? '',
           city: '',
           position: row.posicao,
