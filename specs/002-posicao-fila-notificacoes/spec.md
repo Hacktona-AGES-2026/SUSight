@@ -16,6 +16,7 @@ Esta spec também cobre a abertura do app e a navegação principal por abas (In
 | Abertura | 41-4 | Logo, "SUSight", "Sua jornada no SUS, com clareza." e a nota de que toda decisão sobre a fila é validada por um profissional de saúde |
 | Início (topo) | 41-21 | Saudação, sino de notificações, cartão da posição, cartão da cirurgia, "Por que estou na fila" |
 | Início (rolagem) | 41-111 | Motivo registrado, situação atual, atalhos de ação e acontecimentos recentes |
+| Notificações | 42-816 | Lista aberta pelo sino, com título, texto curto, data e ponto de novo. Item novo tem ponto colorido, item lido é cinza |
 
 ## Comportamento esperado
 
@@ -75,7 +76,7 @@ Esta spec também cobre a abertura do app e a navegação principal por abas (In
 
 ## Questões em aberto
 
-- Não há tela de notificações no Figma. Será uma lista dentro do app aberta pelo sino? Precisa de design.
+- A tela de notificações (42-816) ainda traz "Precisamos de uma confirmação" e "Atualização analisada", que não existem mais (sem confirmação em documentos e sem relato). O pedido de informação deve falar do exame "Pendente".
 - O design mostra o total da fila (118) e a posição exata. Isso é aceitável para LGPD e para a equidade, já que expõe o tamanho da lista? Confirmar com a equipe.
 - O que significa o anel de progresso: proporção da posição sobre o total ou avanço desde a entrada na fila?
 - "Motivo registrado" traz termos clínicos (por exemplo, osteoartrose). Isso vem do encaminhamento e será exibido como está?
