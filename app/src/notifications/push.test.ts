@@ -96,6 +96,7 @@ describe("toque na notificação", () => {
     expect(tabFromNotification({ type: "exame_em_analise" })).toBe("documentos");
     expect(tabFromNotification({ type: "exame_pendente" })).toBe("documentos");
     expect(tabFromNotification({ type: "documento_recebido" })).toBe("documentos");
+    expect(tabFromNotification({ type: "analise_concluida" })).toBe("inicio");
   });
 
   it("aviso desconhecido abre o Início", () => {

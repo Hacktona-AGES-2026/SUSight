@@ -53,7 +53,7 @@ A entrada `index.ts` registra as tarefas dos widgets e carrega o Expo Router. Os
 
 - `GET /me/widget` devolve `{ queue: { position, total, positionWeekAgo, positionMonthAgo } | null, exams: [{ name, status, dueDate? }], updatedAt }`. O `status` é `pendente`, `recebido` ou `em_analise`.
 - `POST /me/push-token` com `{ token }`.
-- Push pelo serviço do Expo, com `data: { type, url, widget }` e `_contentAvailable: true`. Os tipos são `posicao_mudou`, `exame_em_analise`, `exame_pendente` e `documento_recebido`.
+- Push pelo serviço do Expo, com `data: { id, type, url, sentAt, widget }` e `_contentAvailable: true`. Os tipos são `posicao_mudou`, `exame_em_analise`, `exame_pendente`, `documento_recebido` e `analise_concluida`.
 
 ## Push notifications
 
@@ -65,7 +65,7 @@ A entrada `index.ts` registra as tarefas dos widgets e carrega o Expo Router. Os
 
 ```bash
 npm run push:test -- "ExponentPushToken[...]" posicao_mudou
-# outros tipos: exame_em_analise, exame_pendente, documento_recebido
+# outros tipos: exame_em_analise, exame_pendente, documento_recebido, analise_concluida
 # --dry-run mostra o payload sem enviar
 ```
 

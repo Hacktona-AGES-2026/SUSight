@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-// Push de teste para validar avisos e widgets sem o backend (spec 004).
+// Push de teste para validar avisos e widgets sem o backend (specs 002 e 004).
 // Uso: npm run push:test -- <ExponentPushToken[...]> [tipo] [--dry-run]
-// Tipos: posicao_mudou (padrão), exame_em_analise, exame_pendente, documento_recebido.
+// Tipos: posicao_mudou (padrão), exame_em_analise, exame_pendente, documento_recebido, analise_concluida.
 
 const EXPO_PUSH_URL = "https://exp.host/--/api/v2/push/send";
 
@@ -16,7 +16,7 @@ const widget = (position, exams) => ({
 const EXAMPLES = {
   posicao_mudou: {
     title: "Sua posição mudou",
-    body: "Você agora é a 31ª.",
+    body: "Você agora é a 31ª de 118 porque outros pacientes foram reavaliados pela equipe médica.",
     url: "pulse://inicio",
     widget: widget(31, [{ name: "Ressonância", status: "pendente" }]),
   },
@@ -38,6 +38,12 @@ const EXAMPLES = {
     url: "pulse://documentos",
     widget: widget(42, [{ name: "Raio-X", status: "recebido" }]),
   },
+  analise_concluida: {
+    title: "Análise concluída",
+    body: "A equipe analisou seu caso e sua posição continua a mesma.",
+    url: "pulse://inicio",
+    widget: widget(42, [{ name: "Raio-X", status: "recebido" }]),
+  },
 };
 
 const args = process.argv.slice(2);
@@ -57,7 +63,8 @@ const message = {
   to: token,
   title: example.title,
   body: example.body,
-  data: { type, url: example.url, widget: example.widget },
+  // `id` evita item repetido na lista de notificações do app.
+  data: { id: `teste-${Date.now()}`, type, url: example.url, sentAt: now, widget: example.widget },
   // Acorda o app em segundo plano no iPhone para atualizar os widgets.
   _contentAvailable: true,
   channelId: "avisos-da-fila",

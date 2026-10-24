@@ -61,13 +61,16 @@ export type PushType =
   | "posicao_mudou"
   | "exame_em_analise"
   | "exame_pendente"
-  | "documento_recebido";
+  | "documento_recebido"
+  /** A análise terminou sem mudança de posição (spec 002, item 10). */
+  | "analise_concluida";
 
 const TAB_BY_TYPE: Record<PushType, WidgetTab> = {
   posicao_mudou: "inicio",
   exame_em_analise: "documentos",
   exame_pendente: "documentos",
   documento_recebido: "documentos",
+  analise_concluida: "inicio",
 };
 
 /** Aba que o toque na notificação abre: o link do push ou, sem link, a aba do tipo do aviso. */
