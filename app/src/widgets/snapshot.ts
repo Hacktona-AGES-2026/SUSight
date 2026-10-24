@@ -10,10 +10,12 @@ export type WidgetInput = {
   queue: {
     position: number;
     total: number;
+    /** Posição uma semana atrás, se houver histórico. */
+    positionWeekAgo?: number;
     /** Posição um mês atrás, se houver histórico. */
     positionMonthAgo?: number;
   } | null;
-  exams: { name: string; status: ExamStatus }[];
+  exams: { name: string; status: ExamStatus; dueDate?: Date }[];
   faceIdEnabled: boolean;
   variant: WidgetVariant;
   updatedAt: Date;
@@ -25,6 +27,7 @@ export type SignedOutSnapshot = {
   version: 1;
   signedIn: false;
   signedOutText: string;
+  accessibilityText: string;
   variant: WidgetVariant;
 };
 
@@ -36,6 +39,12 @@ export type SignedInSnapshot = {
   pendingText: string;
   exams: WidgetExam[];
   riseText: string | null;
+  /** Widget "Próximo exame" (Android). */
+  nextExam: { name: string; dueText: string } | null;
+  /** Widget "Esta semana" (Android). */
+  week: { valueText: string; captionText: string };
+  /** Frase lida pelo VoiceOver e pelo TalkBack. */
+  accessibilityText: string;
   hideWhenLocked: boolean;
   variant: WidgetVariant;
   updatedAtText: string;
@@ -56,10 +65,12 @@ const STATUS_ORDER: ExamStatus[] = ["pendente", "em_analise", "recebido"];
 
 export function buildWidgetSnapshot(input: WidgetInput): WidgetSnapshot {
   if (!input.signedIn) {
+    const text = "Abra o SUSight para ver sua posição";
     return {
       version: 1,
       signedIn: false,
-      signedOutText: "Abra o SUSight para ver sua posição",
+      signedOutText: text,
+      accessibilityText: text,
       variant: input.variant,
     };
   }
@@ -68,13 +79,16 @@ export function buildWidgetSnapshot(input: WidgetInput): WidgetSnapshot {
   const pendingCount = input.exams.filter(
     (e) => e.status === "pendente",
   ).length;
+  const positionText = queue ? `${queue.position}ª` : null;
+  const pending = pendingText(pendingCount);
+  const rise = queue ? riseText(queue.position, queue.positionMonthAgo) : null;
 
   return {
     version: 1,
     signedIn: true,
-    positionText: queue ? `${queue.position}ª` : null,
+    positionText,
     ringProgress: queue ? (queue.total - queue.position + 1) / queue.total : 0,
-    pendingText: pendingText(pendingCount),
+    pendingText: pending,
     exams: [...input.exams]
       .sort(
         (a, b) =>
@@ -86,7 +100,18 @@ export function buildWidgetSnapshot(input: WidgetInput): WidgetSnapshot {
         statusText: STATUS_TEXT[e.status],
         pending: e.status === "pendente",
       })),
-    riseText: queue ? riseText(queue.position, queue.positionMonthAgo) : null,
+    riseText: rise,
+    nextExam: nextExam(input.exams, input.updatedAt),
+    week: weekSummary(queue, positionText),
+    accessibilityText: [
+      queue
+        ? `Sua posição na fila: ${positionText} de ${queue.total}.`
+        : "Posição ainda indisponível. Abra o SUSight para ver.",
+      `${pending}.`,
+      rise ? `${rise}.` : null,
+    ]
+      .filter(Boolean)
+      .join(" "),
     hideWhenLocked: input.faceIdEnabled,
     variant: input.variant,
     updatedAtText: `Atualizada em ${shortDate(input.updatedAt)}`,
@@ -106,6 +131,59 @@ function riseText(position: number, positionMonthAgo?: number): string | null {
   return rise === 1
     ? "Subiu 1 posição este mês"
     : `Subiu ${rise} posições este mês`;
+}
+
+function nextExam(
+  exams: WidgetInput["exams"],
+  now: Date,
+): SignedInSnapshot["nextExam"] {
+  const pending = exams
+    .filter((e) => e.status === "pendente")
+    .sort(
+      (a, b) =>
+        (a.dueDate?.getTime() ?? Infinity) - (b.dueDate?.getTime() ?? Infinity),
+    );
+  const exam = pending[0];
+  if (!exam) return null;
+  return { name: exam.name, dueText: dueText(exam.dueDate, now) };
+}
+
+const DAY = 24 * 60 * 60 * 1000;
+
+function dueText(dueDate: Date | undefined, now: Date): string {
+  if (!dueDate) return "Envie pelo app";
+  const days = (dueDate.getTime() - now.getTime()) / DAY;
+  // Prazo vencido: orienta sem alarme (constituição, item 7).
+  if (days < 0) return "Envie assim que puder";
+  if (days < 7) return `Enviar até ${weekday(dueDate)}`;
+  return `Enviar até ${shortDate(dueDate)}`;
+}
+
+function weekSummary(
+  queue: WidgetInput["queue"],
+  positionText: string | null,
+): SignedInSnapshot["week"] {
+  const rise =
+    queue?.positionWeekAgo !== undefined
+      ? queue.positionWeekAgo - queue.position
+      : 0;
+  if (rise > 0) {
+    return {
+      valueText: `↑ ${rise}`,
+      captionText: rise === 1 ? "posição" : "posições",
+    };
+  }
+  return { valueText: positionText ?? "–", captionText: "sua posição" };
+}
+
+/** "sexta", no fuso de Brasília. */
+function weekday(date: Date): string {
+  return new Intl.DateTimeFormat("pt-BR", {
+    weekday: "long",
+    timeZone: "America/Sao_Paulo",
+  })
+    .format(date)
+    .replace("-feira", "");
 }
 
 /** "24 de out", no fuso de Brasília. */

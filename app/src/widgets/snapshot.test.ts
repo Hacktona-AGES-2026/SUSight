@@ -119,6 +119,7 @@ describe("buildWidgetSnapshot", () => {
       version: 1,
       signedIn: false,
       signedOutText: "Abra o SUSight para ver sua posição",
+      accessibilityText: "Abra o SUSight para ver sua posição",
       variant: "padrao",
     });
   });
@@ -137,5 +138,102 @@ describe("buildWidgetSnapshot", () => {
     for (const word of ["urgente", "atenção", "cirurgia em", "previsão"]) {
       expect(texts).not.toContain(word);
     }
+  });
+
+  describe("próximo exame (Android)", () => {
+    it("mostra o exame pendente com o prazo mais próximo", () => {
+      const snapshot = buildWidgetSnapshot({
+        ...base,
+        exams: [
+          { name: "Raio-X", status: "pendente", dueDate: new Date("2026-11-10T12:00:00-03:00") },
+          { name: "Ressonância", status: "pendente", dueDate: new Date("2026-10-30T12:00:00-03:00") },
+        ],
+      });
+      expect(snapshot.nextExam).toEqual({
+        name: "Ressonância",
+        dueText: "Enviar até sexta",
+      });
+    });
+
+    it("usa a data quando o prazo passa de uma semana", () => {
+      const snapshot = buildWidgetSnapshot({
+        ...base,
+        exams: [
+          { name: "Raio-X", status: "pendente", dueDate: new Date("2026-11-10T12:00:00-03:00") },
+        ],
+      });
+      expect(snapshot.nextExam?.dueText).toBe("Enviar até 10 de nov");
+    });
+
+    it("sem prazo ou com prazo vencido, só orienta a enviar, sem alarme", () => {
+      const noDue = buildWidgetSnapshot(base);
+      expect(noDue.nextExam).toEqual({ name: "Ressonância", dueText: "Envie pelo app" });
+      const late = buildWidgetSnapshot({
+        ...base,
+        exams: [
+          { name: "Raio-X", status: "pendente", dueDate: new Date("2026-10-20T12:00:00-03:00") },
+        ],
+      });
+      expect(late.nextExam?.dueText).toBe("Envie assim que puder");
+    });
+
+    it("sem exame pendente, não há próximo exame", () => {
+      const snapshot = buildWidgetSnapshot({
+        ...base,
+        exams: [{ name: "Raio-X", status: "recebido" }],
+      });
+      expect(snapshot.nextExam).toBeNull();
+    });
+  });
+
+  describe("esta semana (Android)", () => {
+    it("mostra quantas posições subiu na semana", () => {
+      const snapshot = buildWidgetSnapshot({
+        ...base,
+        queue: { position: 42, total: 118, positionWeekAgo: 45 },
+      });
+      expect(snapshot.week).toEqual({ valueText: "↑ 3", captionText: "posições" });
+      const one = buildWidgetSnapshot({
+        ...base,
+        queue: { position: 42, total: 118, positionWeekAgo: 43 },
+      });
+      expect(one.week).toEqual({ valueText: "↑ 1", captionText: "posição" });
+    });
+
+    it("quando não subiu, mostra só a posição atual", () => {
+      const down = buildWidgetSnapshot({
+        ...base,
+        queue: { position: 42, total: 118, positionWeekAgo: 40 },
+      });
+      expect(down.week).toEqual({ valueText: "42ª", captionText: "sua posição" });
+      const noQueue = buildWidgetSnapshot({ ...base, queue: null });
+      expect(noQueue.week).toEqual({ valueText: "–", captionText: "sua posição" });
+    });
+  });
+
+  describe("leitor de tela (VoiceOver e TalkBack)", () => {
+    it("lê o widget como uma frase completa", () => {
+      expect(buildWidgetSnapshot(base).accessibilityText).toBe(
+        "Sua posição na fila: 42ª de 118. 1 exame pendente. Subiu 11 posições este mês.",
+      );
+    });
+
+    it("não lê a variação quando a posição não subiu", () => {
+      const snapshot = buildWidgetSnapshot({
+        ...base,
+        queue: { position: 42, total: 118, positionMonthAgo: 40 },
+        exams: [],
+      });
+      expect(snapshot.accessibilityText).toBe(
+        "Sua posição na fila: 42ª de 118. Nenhum exame pendente.",
+      );
+    });
+
+    it("sem posição, orienta a abrir o app", () => {
+      const snapshot = buildWidgetSnapshot({ ...base, queue: null, exams: [] });
+      expect(snapshot.accessibilityText).toBe(
+        "Posição ainda indisponível. Abra o SUSight para ver. Nenhum exame pendente.",
+      );
+    });
   });
 });

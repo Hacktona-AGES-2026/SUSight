@@ -7,9 +7,13 @@ import type { WidgetInput } from "./snapshot";
 export function demoWidgetInput(now: Date): WidgetInput {
   return {
     signedIn: true,
-    queue: { position: 42, total: 118, positionMonthAgo: 53 },
+    queue: { position: 42, total: 118, positionWeekAgo: 45, positionMonthAgo: 53 },
     exams: [
-      { name: "Ressonância", status: "pendente" },
+      {
+        name: "Ressonância",
+        status: "pendente",
+        dueDate: new Date(now.getTime() + 6 * 24 * 60 * 60 * 1000),
+      },
       { name: "Raio-X", status: "em_analise" },
       { name: "Exame de sangue", status: "recebido" },
     ],

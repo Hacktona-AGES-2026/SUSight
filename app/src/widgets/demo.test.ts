@@ -16,6 +16,11 @@ describe("dados de demonstração dos widgets", () => {
       "Exame de sangue",
     ]);
     expect(snapshot.riseText).toBe("Subiu 11 posições este mês");
+    expect(snapshot.week).toEqual({ valueText: "↑ 3", captionText: "posições" });
+    expect(snapshot.nextExam).toEqual({
+      name: "Ressonância",
+      dueText: "Enviar até sexta",
+    });
     expect(snapshot.variant).toBe("padrao");
   });
 });
