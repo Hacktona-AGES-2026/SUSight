@@ -1,7 +1,7 @@
 {
   "name": "susight",
   "version": "1.0.0",
-  "main": "expo-router/entry",
+  "main": "index.ts",
   "dependencies": {
     "expo": "~58.0.19",
     "expo-constants": "~58.0.13",
@@ -19,7 +19,15 @@
     "react-native": "0.88.0",
     "react-native-safe-area-context": "~5.10.1",
     "react-native-screens": "~4.30.0",
-    "react-native-svg": "15.16.0"
+    "react-native-svg": "15.16.0",
+    "expo-dev-client": "~58.0.15",
+    "@bacons/apple-targets": "^5.0.0",
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "react-native-android-widget": "^0.24.0",
+    "expo-device": "~58.0.5",
+    "expo-notifications": "~58.1.6",
+    "expo-background-task": "~58.0.11",
+    "expo-task-manager": "~58.0.12"
   },
   "devDependencies": {
     "@testing-library/react-native": "^14.1.0",
@@ -29,14 +37,17 @@
     "jest-expo": "~58.0.12",
     "react-dom": "19.3.0",
     "test-renderer": "^1.3.1",
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "@types/node": "^22.20.5"
   },
   "scripts": {
     "start": "expo start",
     "ios": "expo run:ios",
     "android": "expo run:android",
     "test": "jest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "web": "expo start --web",
+    "push:test": "node scripts/send-test-push.mjs"
   },
   "private": true,
   "jest": {

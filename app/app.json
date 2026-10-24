@@ -8,20 +8,23 @@
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "br.ages.susight",
+      "bundleIdentifier": "com.hacktonaages2026.pulse",
       "infoPlist": {
+        "UIBackgroundModes": [
+          "remote-notification"
+        ],
         "NSFaceIDUsageDescription": "O SUSight usa o Face ID para proteger seus dados de saúde."
+      },
+      "entitlements": {
+        "com.apple.security.application-groups": [
+          "group.com.hacktonaages2026.pulse"
+        ]
       }
     },
     "android": {
-      "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
-      },
       "predictiveBackGestureEnabled": false,
-      "package": "br.ages.susight"
+      "package": "com.hacktonaages2026.pulse",
+      "icon": "./assets/icon.png"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -48,8 +51,58 @@
           "faceIDPermission": "O SUSight usa o Face ID para proteger seus dados de saúde."
         }
       ],
-      "expo-image"
+      "expo-image",
+      "@bacons/apple-targets",
+      [
+        "react-native-android-widget",
+        {
+          "widgets": [
+            {
+              "name": "PositionWidget",
+              "label": "Sua posição na fila",
+              "description": "Sua posição na fila e a situação dos seus exames.",
+              "minWidth": "250dp",
+              "minHeight": "110dp",
+              "targetCellWidth": 4,
+              "targetCellHeight": 2,
+              "resizeMode": "horizontal|vertical",
+              "updatePeriodMillis": 1800000
+            },
+            {
+              "name": "NextExamWidget",
+              "label": "Próximo exame",
+              "description": "O próximo exame que você precisa enviar.",
+              "minWidth": "110dp",
+              "minHeight": "110dp",
+              "targetCellWidth": 2,
+              "targetCellHeight": 2,
+              "updatePeriodMillis": 1800000
+            },
+            {
+              "name": "WeekWidget",
+              "label": "Esta semana",
+              "description": "Quanto sua posição subiu nesta semana.",
+              "minWidth": "110dp",
+              "minHeight": "110dp",
+              "targetCellWidth": 2,
+              "targetCellHeight": 2,
+              "updatePeriodMillis": 1800000
+            }
+          ]
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#A3205B",
+          "defaultChannel": "avisos-da-fila"
+        }
+      ],
+      "expo-background-task"
     ],
-    "scheme": "susight"
+    "scheme": [
+      "susight",
+      "pulse"
+    ]
   }
 }

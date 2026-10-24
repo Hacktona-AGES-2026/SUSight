@@ -7,6 +7,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Splash } from '../components/Splash';
 import { Button } from '../components/ui';
 import { SessionProvider, useSession } from '../session';
+import { WidgetBridge } from '../widgets/WidgetBridge';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -79,6 +80,7 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <StatusBar style="dark" />
       <SessionProvider>
+        <WidgetBridge />
         <Gate />
       </SessionProvider>
     </SafeAreaProvider>

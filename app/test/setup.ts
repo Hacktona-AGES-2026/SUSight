@@ -1,4 +1,5 @@
 // Native modules the app touches, replaced by in-memory fakes.
+jest.mock('../src/widgets/WidgetBridge', () => ({ WidgetBridge: () => null }));
 jest.mock('expo-secure-store', () => {
   const store = new Map<string, string>();
   return {
