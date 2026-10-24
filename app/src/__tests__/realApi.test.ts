@@ -124,7 +124,7 @@ test('timeline and documents translate backend events and requests', () => {
   expect(
     toDocs([{ pedido_id: 'a', exame: 'ECG', situacao: 'em_analise', data_hora: '2026-10-20T00:00:00Z' }])[0],
   ).toMatchObject({
-    status: 'analyzing',
+    status: 'received',
     name: 'ECG',
   });
 });

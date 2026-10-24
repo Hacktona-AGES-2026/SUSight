@@ -45,7 +45,7 @@ export function WidgetBridge() {
         return;
       }
       if (status !== 'signedIn') return;
-      await setWidgetPreferences({ faceIdEnabled: prefs.faceId });
+      await setWidgetPreferences({ faceIdEnabled: false });
       const token = await getSessionToken();
       if (!token) return;
       const [home, documents] = await Promise.all([api.getHome(), api.getDocuments()]);
@@ -54,7 +54,7 @@ export function WidgetBridge() {
         signedIn: true,
         queue: { position: home.request.position, total: home.request.total },
         exams: documents.map((document) => ({ name: document.name, status: EXAM_STATUS[document.status] })),
-        faceIdEnabled: prefs.faceId,
+        faceIdEnabled: false,
         variant: 'padrao',
         // Data sem horário mantém o dia civil de Brasília, sem recuar um dia por UTC.
         updatedAt: new Date(/^\d{4}-\d{2}-\d{2}$/.test(home.request.updatedAt)
@@ -68,7 +68,7 @@ export function WidgetBridge() {
       if (state === 'active') update();
     });
     return () => { active = false; subscription.remove(); };
-  }, [status, prefs.faceId, pathname]);
+  }, [status, pathname]);
 
   return null;
 }

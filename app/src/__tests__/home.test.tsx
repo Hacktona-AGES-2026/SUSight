@@ -1,4 +1,4 @@
-import { userEvent, within } from '@testing-library/react-native';
+import { userEvent } from '@testing-library/react-native';
 import { screen } from 'expo-router/testing-library';
 import { api } from '../api';
 import { openSignedIn } from '../../test/utils';
@@ -26,21 +26,12 @@ it('mostra a situação atual e não oferece relato de dor', async () => {
   expect(screen.queryByRole('button', { name: /Atualizar minha situação|dor|mobilidade/i })).not.toBeOnTheScreen();
 });
 
-it('leva do atalho ao envio de documento', async () => {
+it('não repete o histórico nem o envio de documento, que têm aba própria', async () => {
   await openSignedIn();
-  await userEvent.setup().press(await screen.findByRole('button', { name: /Enviar exame ou laudo/ }));
-  expect(screen).toHavePathname('/documents');
-});
-
-it('lista acontecimentos recentes em ordem e abre o histórico', async () => {
-  await openSignedIn();
-  const recent = await screen.findByLabelText('Acontecimentos recentes');
-  const dates = within(recent)
-    .getAllByLabelText(/\d{1,2} \w{3}$/)
-    .map((e) => e.props.accessibilityLabel.split('. ').pop());
-  expect(dates).toEqual(['22 out', '21 out', '20 out', '12 set']);
-  await userEvent.setup().press(screen.getByRole('button', { name: 'Ver histórico completo' }));
-  expect(screen).toHavePathname('/history');
+  await screen.findByText('Situação atual');
+  expect(screen.queryByText('Acontecimentos recentes')).not.toBeOnTheScreen();
+  expect(screen.queryByRole('button', { name: 'Ver histórico completo' })).not.toBeOnTheScreen();
+  expect(screen.queryByRole('button', { name: /Enviar exame ou laudo/ })).not.toBeOnTheScreen();
 });
 
 it('mostra o ponto de aviso no sino e abre as notificações', async () => {

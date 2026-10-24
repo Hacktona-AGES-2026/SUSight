@@ -1,5 +1,4 @@
 import { fireEvent, userEvent, waitFor, within } from '@testing-library/react-native';
-import * as LocalAuthentication from 'expo-local-authentication';
 import * as SecureStore from 'expo-secure-store';
 import { screen } from 'expo-router/testing-library';
 import { Alert } from 'react-native';
@@ -16,7 +15,7 @@ describe('Histórico', () => {
       .getAllByLabelText(/\d{1,2} \w{3}$/)
       .map((e) => e.props.accessibilityLabel);
     expect(labels[0]).toMatch(/^Pedido de exame\. .*\. 22 out$/);
-    expect(labels.at(-1)).toBe('Entrada na fila de cirurgia eletiva. Encaminhamento da UBS Icaraí.. 14 mar');
+    expect(labels.at(-1)).toBe('Entrada na fila de cirurgia. Encaminhamento da UBS Icaraí.. 14 mar');
   });
 
   it('explica quando ainda não há eventos', async () => {
@@ -43,17 +42,6 @@ describe('Perfil', () => {
     await user.press(await screen.findByRole('button', { name: /^Notificações/ }));
     expect(await screen.findByText('Falta um exame')).toBeOnTheScreen();
     expect(screen.queryByText('Documento recebido')).not.toBeOnTheScreen();
-  });
-
-  it('só liga o Face ID depois de autenticar', async () => {
-    await openSignedIn('/profile');
-    const toggle = await screen.findByRole('switch', { name: /Bloqueio com Face ID/ });
-    jest.mocked(LocalAuthentication.authenticateAsync).mockResolvedValueOnce({ success: false, error: 'user_cancel' });
-    await fireEvent(toggle, 'valueChange', true);
-    expect(await screen.findByRole('switch', { name: /Bloqueio com Face ID/, checked: false })).toBeOnTheScreen();
-    await fireEvent(toggle, 'valueChange', true);
-    expect(await screen.findByRole('switch', { name: /Bloqueio com Face ID/, checked: true })).toBeOnTheScreen();
-    expect(JSON.parse((await SecureStore.getItemAsync('prefs'))!)).toMatchObject({ faceId: true });
   });
 
   it('sai da conta e volta ao login', async () => {

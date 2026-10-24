@@ -19,8 +19,8 @@ jest.mock('./refresh', () => ({
   refreshAllWidgets: jest.fn(async () => {}), clearAllWidgets: jest.fn(async () => {}),
 }));
 
-function session(status: 'signedIn' | 'signedOut', faceId = false) {
-  jest.mocked(useSession).mockReturnValue({ status, prefs: { faceId, notifications: false } } as ReturnType<typeof useSession>);
+function session(status: 'signedIn' | 'signedOut') {
+  jest.mocked(useSession).mockReturnValue({ status, prefs: { notifications: false } } as unknown as ReturnType<typeof useSession>);
 }
 
 beforeEach(async () => {
@@ -30,16 +30,16 @@ beforeEach(async () => {
   await SecureStore.setItemAsync('session', JSON.stringify({ token: 'paciente', lastActive: Date.now() }));
 });
 
-it('mostra a mesma fila e os mesmos documentos das telas e respeita o Face ID', async () => {
-  session('signedIn', true);
+it('mostra a mesma fila e os mesmos documentos das telas', async () => {
+  session('signedIn');
   await render(<WidgetBridge />);
   await waitFor(() => expect(refreshAllWidgets).toHaveBeenCalled());
   expect(jest.mocked(refreshAllWidgets).mock.calls[0][0]).toMatchObject({
-    positionText: '42ª', pendingText: '1 exame pendente', hideWhenLocked: true,
+    positionText: '42ª', pendingText: '1 exame pendente', hideWhenLocked: false,
     updatedAtText: 'Atualizada em 24 de out',
     nextExam: { name: 'Risco cirúrgico' },
   });
-  expect(setWidgetPreferences).toHaveBeenCalledWith({ faceIdEnabled: true });
+  expect(setWidgetPreferences).toHaveBeenCalledWith({ faceIdEnabled: false });
 });
 
 it('limpa os widgets ao sair da conta', async () => {

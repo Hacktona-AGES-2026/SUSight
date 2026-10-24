@@ -23,8 +23,8 @@ const seed = () => ({
   documents: [
     { id: 'd4', name: 'Risco cirúrgico', type: 'Exame', date: '2026-10-22', status: 'pending' },
     { id: 'd3', name: 'Eletrocardiograma pré-operatório', type: 'Exame', date: '2026-10-21', status: 'received' },
-    { id: 'd2', name: 'Raio-X do joelho direito', type: 'Exame', date: '2026-10-20', status: 'analyzing' },
-    { id: 'd1', name: 'Ressonância do joelho direito', type: 'Laudo', date: '2026-08-22', status: 'analyzing' },
+    { id: 'd2', name: 'Raio-X do joelho direito', type: 'Exame', date: '2026-10-20', status: 'received' },
+    { id: 'd1', name: 'Ressonância do joelho direito', type: 'Laudo', date: '2026-08-22', status: 'received' },
   ] as Doc[],
   contacts: [
     { id: 'c1', name: 'João Albuquerque', relation: 'Filho ou filha', phone: '21987655521', since: '2026-09-02' },
@@ -158,7 +158,7 @@ const demoApi: Api = {
       {
         id: 'h5',
         title: 'Documento enviado: raio-X do joelho',
-        detail: 'Em análise pela equipe.',
+        detail: 'Recebido pela equipe.',
         date: '2026-10-20',
         tone: 'strong' as const,
       },
@@ -179,13 +179,13 @@ const demoApi: Api = {
       {
         id: 'h2',
         title: 'Documento enviado: ressonância do joelho',
-        detail: 'Laudo recebido e em análise.',
+        detail: 'Laudo recebido.',
         date: '2026-08-22',
         tone: 'muted' as const,
       },
       {
         id: 'h1',
-        title: 'Entrada na fila de cirurgia eletiva',
+        title: 'Entrada na fila de cirurgia',
         detail: 'Encaminhamento da UBS Icaraí.',
         date: '2026-03-14',
         tone: 'muted' as const,

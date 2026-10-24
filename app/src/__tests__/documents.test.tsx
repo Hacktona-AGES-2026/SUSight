@@ -1,6 +1,5 @@
 import { userEvent, within } from '@testing-library/react-native';
 import * as DocumentPicker from 'expo-document-picker';
-import * as ImagePicker from 'expo-image-picker';
 import { screen } from 'expo-router/testing-library';
 import { Alert } from 'react-native';
 import { api } from '../api';
@@ -16,7 +15,6 @@ const pickFile = (asset: Partial<DocumentPicker.DocumentPickerAsset>) =>
 
 const openNewDocument = async (user: ReturnType<typeof userEvent.setup>) => {
   await user.press(await screen.findByRole('button', { name: 'Adicionar documento' }));
-  await user.press(screen.getByRole('button', { name: /Escolher em Arquivos/ }));
 };
 
 afterEach(() => jest.restoreAllMocks());
@@ -30,8 +28,8 @@ it('lista documentos do mais recente ao mais antigo com tipo, data e situação'
   expect(rows).toEqual([
     'Risco cirúrgico. Exame · 22 out. Pendente',
     'Eletrocardiograma pré-operatório. Exame · 21 out. Recebido',
-    'Raio-X do joelho direito. Exame · 20 out. Em análise',
-    'Ressonância do joelho direito. Laudo · 22 ago. Em análise',
+    'Raio-X do joelho direito. Exame · 20 out. Recebido',
+    'Ressonância do joelho direito. Laudo · 22 ago. Recebido',
   ]);
 });
 
@@ -41,20 +39,14 @@ it('mostra um estado explicativo sem documentos', async () => {
   expect(await screen.findByText('Nenhum documento enviado')).toBeOnTheScreen();
 });
 
-it('oferece câmera, biblioteca de fotos e Arquivos', async () => {
+it('vai direto para os arquivos, sem câmera nem biblioteca de fotos', async () => {
   const user = userEvent.setup();
+  pickFile({});
   await openSignedIn('/documents');
   await user.press(await screen.findByRole('button', { name: 'Adicionar documento' }));
-  expect(screen.getByRole('button', { name: /Tirar foto/ })).toBeOnTheScreen();
-  expect(screen.getByRole('button', { name: /Biblioteca de fotos/ })).toBeOnTheScreen();
-  expect(screen.getByRole('button', { name: /Escolher em Arquivos.*PDF, JPG ou PNG · até 20 MB/ })).toBeOnTheScreen();
-  await user.press(screen.getByRole('button', { name: 'Cancelar' }));
+  expect(await screen.findByText('Arquivos · 1,0 MB')).toBeOnTheScreen();
   expect(screen.queryByRole('button', { name: /Tirar foto/ })).not.toBeOnTheScreen();
-});
-
-it('abre a escolha de origem pelo atalho do Início', async () => {
-  await openSignedIn('/documents?add=1');
-  expect(await screen.findByRole('button', { name: /Tirar foto/ })).toBeOnTheScreen();
+  expect(screen.queryByRole('button', { name: /Biblioteca de fotos/ })).not.toBeOnTheScreen();
 });
 
 it('recusa formatos não aceitos com mensagem em português', async () => {
@@ -111,19 +103,11 @@ it('permite tentar de novo sem perder o arquivo e o tipo', async () => {
   expect(upload).toHaveBeenLastCalledWith(expect.objectContaining({ type: 'Laudo' }));
 });
 
-it('atende um exame pendente e avisa quando a imagem é pouco legível', async () => {
+it('atende um exame pendente escolhendo o arquivo', async () => {
   const user = userEvent.setup();
   await openSignedIn('/documents');
-  jest.mocked(ImagePicker.launchImageLibraryAsync).mockResolvedValueOnce({
-    canceled: false,
-    assets: [
-      { uri: 'file:///f.jpg', fileName: 'risco.jpg', mimeType: 'image/jpeg', fileSize: MB, width: 400, height: 600 },
-    ],
-  } as ImagePicker.ImagePickerResult);
+  pickFile({ uri: 'file:///f.jpg', name: 'risco.jpg', mimeType: 'image/jpeg', width: 400, height: 600 } as never);
   await user.press(await screen.findByRole('button', { name: /^Risco cirúrgico.*Pendente/ }));
-  expect(screen.getByText('Enviar: Risco cirúrgico')).toBeOnTheScreen();
-  await user.press(screen.getByRole('button', { name: /Biblioteca de fotos/ }));
-  expect(await screen.findByText('Pouco legível')).toBeOnTheScreen();
   await user.press(screen.getByRole('button', { name: 'Enviar documento' }));
   expect(await screen.findByLabelText(/^Risco cirúrgico\. Exame · .*\. Recebido$/)).toBeOnTheScreen();
 });

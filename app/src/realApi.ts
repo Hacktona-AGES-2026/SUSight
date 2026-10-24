@@ -37,7 +37,7 @@ const BY_CID: Record<string, { procedure: string; specialty: string }> = {
 };
 const PRIORITY: Record<string, Priority> = { Alta: 'Alta', Moderada: 'Moderada', Média: 'Moderada', Baixa: 'Baixa' };
 const EVENT_TITLES: Record<string, string> = {
-  entrada_na_fila: 'Entrada na fila de cirurgia eletiva',
+  entrada_na_fila: 'Entrada na fila de cirurgia',
   documento_recebido: 'Documento enviado',
   posicao_alterada: 'Sua posição mudou',
   informacao_solicitada: 'Pedido de exame',
@@ -55,8 +55,8 @@ const NOTICE_KINDS: Record<string, NotificationKind> = {
 const DOC_STATUS: Record<string, DocStatus> = {
   pendente: 'pending',
   recebido: 'received',
-  em_analise: 'analyzing',
-  atendido: 'analyzing',
+  em_analise: 'received',
+  atendido: 'received',
 };
 
 const digits = (text: string) => text.replace(/\D/g, '');
@@ -202,7 +202,7 @@ export function createRealApi(baseUrl: string, fetchImpl: typeof fetch = fetch):
         request: {
           number: row.solicitacao_id,
           procedure: known?.procedure ?? `Cirurgia (CID ${row.cid})`,
-          detail: known?.specialty ?? 'Cirurgia eletiva',
+          detail: known?.specialty ?? 'Cirurgia',
           specialty: known?.specialty ?? '',
           city: '',
           position: row.posicao,
@@ -284,6 +284,8 @@ export function createRealApi(baseUrl: string, fetchImpl: typeof fetch = fetch):
         throw new ApiError(typeof detail?.detail === 'string' ? detail.detail : 'Não foi possível enviar o documento.');
       }
       const result = (await response.json()) as { documento_id: string };
+      // Reading the document takes a while (and needs the extractor); do not make the patient wait for it.
+      send('POST', `/documentos/${result.documento_id}/extracao`).catch(() => {});
       const doc: Doc = { id: result.documento_id, name: file.name, type, date: daysBefore(0), status: 'received' };
       if (!requestedId) uploaded.push(doc);
       return doc;
